@@ -11,6 +11,8 @@ public class GraphicsEngine extends Canvas
 	private static final long serialVersionUID = 1L;  
 	
 	private Frame frame;
+	private int x;
+	private int y;
 	
 	private class CloseWindow extends WindowAdapter
 	{		 
@@ -20,12 +22,14 @@ public class GraphicsEngine extends Canvas
 		    }	 
 	}
 	
-	public GraphicsEngine(UserInput ui)
+	public GraphicsEngine(UserInput ui, int x, int y) 
 	{
 		super();
+		this.x = x;
+		this.y = y;
 		
 		frame = new Frame();
-        frame.setSize(300, 400);
+        frame.setSize(x, y);
         frame.setVisible(true);
 
         frame.add(this);
