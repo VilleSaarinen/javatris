@@ -27,6 +27,7 @@ public class GraphicsEngine extends Canvas implements Runnable
 	private long updateTick;
 	private long previousTick;
 	private long nextTick;
+	private Thread thread;
 
 	
 	
@@ -69,8 +70,10 @@ public class GraphicsEngine extends Canvas implements Runnable
         
         createBackground(); 
         updateTick = 500;
-        previousTick = System.currentTimeMillis();
+        previousTick = System.currentTimeMillis();  //TODO: necessary?
         nextTick = System.currentTimeMillis();
+        
+        thread = new Thread(this);
 		
 	}
 	
@@ -147,6 +150,11 @@ public class GraphicsEngine extends Canvas implements Runnable
 		paint(g);
 	}
 
+	public void start()
+	{
+		thread.start();
+	}
+	
 	@Override
 	public void run() 
 	{

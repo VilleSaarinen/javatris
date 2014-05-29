@@ -14,7 +14,8 @@ public class javatris
 		GameEngine gameEngine;
 		
 		gameEngine = new GameEngine();
-		gameEngine.run();
+		
+		gameEngine.startNewGame();
 	
 	}
 
