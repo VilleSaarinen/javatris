@@ -12,14 +12,22 @@ public abstract class Brick
 	protected int width;
 	protected int height;
 	protected int row;
+	protected int index;
 	protected int column;
 	protected int previousX;
 	protected int previousY;
 	protected Color color;
 	protected BrickType type;
 	
-	public Brick()
+	public Brick(int brickX, int brickY, int brickWidth, int brickHeight, int brickIndex, Color brickColor, BrickType brickType)
 	{
+		x = brickX;
+		y = brickY;
+		width = brickWidth;
+		height = brickHeight;
+		index = brickIndex;
+		color = brickColor;
+		type = brickType;
 		
 	}
 	

@@ -6,6 +6,7 @@ public class BrickGenerator
 	private int height;
 	private int rows;
 	private int columns;
+	private Brick[][] bricks;
 	
 	public BrickGenerator(int width, int height, int rows, int columns)
 	{
@@ -13,6 +14,8 @@ public class BrickGenerator
 		this.height = height;
 		this.rows = rows;
 		this.columns = columns;
+		
+		bricks = new Brick[rows][columns];
 		
 	}
 	
