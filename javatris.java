@@ -14,12 +14,11 @@ public class javatris
 		GameEngine gameEngine;
 		UserInput ui;
 		GraphicsEngine graphicsEngine;
-		
-		
-		gameEngine = new GameEngine();
+
 		ui = new UserInput();
 		graphicsEngine = new GraphicsEngine(ui, 1000, 1000);
 		
+		gameEngine = new GameEngine(graphicsEngine);
 		gameEngine.run();
 	
 	}
