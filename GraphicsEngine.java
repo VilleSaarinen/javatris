@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 
-public class GraphicsEngine extends Canvas 
+public class GraphicsEngine extends Canvas implements Runnable
 {
 	/**
 	 * TODO: find out what the hell is this
@@ -17,13 +17,17 @@ public class GraphicsEngine extends Canvas
 	private static final long serialVersionUID = 1L;  
 	
 	private Frame frame;
-	private int x;
-	private int y;
+	private int width;
+	private int height;
 	private GradientPaint bg;
 	private int red1, green1, blue1, red2, green2, blue2;
 	private boolean r1, r2, g1, g2, b1, b2;
 	private Graphics2D g;
 	private BufferedImage buffer;
+	private long updateTick;
+	private long previousTick;
+	private long nextTick;
+
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -37,8 +41,8 @@ public class GraphicsEngine extends Canvas
 	public GraphicsEngine(UserInput ui, int x, int y) 
 	{
 		super();
-		this.x = x;
-		this.y = y;
+		this.width = x;
+		this.height = y;
 		
 		frame = new Frame();
         frame.setSize(x, y);
@@ -60,12 +64,13 @@ public class GraphicsEngine extends Canvas
         
         r1 = r2 = g1 = g2 = b1 = b2 = true;
         
-        buffer = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
+        buffer = new BufferedImage(x, y, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D)buffer.getGraphics();
         
-        createBackground(); //TODO: test only here
-        repaint();
-        
+        createBackground(); 
+        updateTick = 500;
+        previousTick = System.currentTimeMillis();
+        nextTick = System.currentTimeMillis();
 		
 	}
 	
@@ -96,25 +101,26 @@ public class GraphicsEngine extends Canvas
 		if (blue2 >254)
 			b2 = false;
 		if (blue2< 120)
-			b2 = true;  
+			b2 = true; 
+		
   
 	    if (r1) red1++;	        
-        else red1--;
+        else red1 = red1-1;
 	    
 	    if (r2) red2++;	        
-        else red2--;
+        else red2 = red2-1;
 	    
 	    if (g1) green1++;	        
-        else green1--;
+        else green1 = green1-1;
 	    
 	    if (g2)green2++;
-        else green2--;
+        else green2 = green2-1;
 	    
 	    if (b1)blue1++;	        
-        else blue1--;
+        else blue1 = blue1-1;
 	    
 	    if (b2) blue2++; 
-        else blue2--;
+        else blue2 = blue2-1;
                               
 	    bg = new GradientPaint(0, this.getHeight(), new Color(red1, green1, blue1), this.getWidth(), 0, new Color(red2, green2, blue2));
 		
@@ -125,9 +131,48 @@ public class GraphicsEngine extends Canvas
 	
 	public void paint(Graphics graphics)
 	{	
+		
+		createBackground();
 		g.setPaint(bg);
-    	g.fillRect (0, 0,  x, y);
-    	graphics.drawImage(buffer, 0,0,this);
+    	g.fillRect(0, 0,  width, height);
+    	graphics.drawImage(buffer, 0, 0, width, height, this);
+    	graphics.dispose();
+
+    	
+	}
+	
+	
+	public void update(Graphics g)
+	{  
+		paint(g);
+	}
+
+	@Override
+	public void run() 
+	{
+		
+		long sleepTime;
+		
+		while(true)
+		{
+		
+			sleepTime = updateTick - (nextTick - previousTick);
+
+			try 
+			{
+				Thread.sleep(sleepTime);
+			}catch (InterruptedException e) 
+			{
+				e.printStackTrace();
+			}
+			
+			previousTick = System.currentTimeMillis();
+			repaint();
+			nextTick = System.currentTimeMillis();
+			
+		
+		}
+		
 	}
 
 }

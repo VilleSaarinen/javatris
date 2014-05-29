@@ -2,11 +2,16 @@
 public class GameEngine implements Runnable 
 {
 
-	private GraphicsEngine ge;
+	private int updateTick;
+	private long currentTime;
 	
-	public GameEngine(GraphicsEngine ge)
+	public GameEngine()
 	{
-		this.ge = ge;
+		
+		updateTick = 1000; //TODO: not yet correct
+		currentTime = System.currentTimeMillis();
+		
+		
 	}
 	
 	

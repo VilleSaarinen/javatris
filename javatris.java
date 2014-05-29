@@ -17,8 +17,9 @@ public class javatris
 
 		ui = new UserInput();
 		graphicsEngine = new GraphicsEngine(ui, 1000, 1000);
+		graphicsEngine.run();
 		
-		gameEngine = new GameEngine(graphicsEngine);
+		gameEngine = new GameEngine();
 		gameEngine.run();
 	
 	}
