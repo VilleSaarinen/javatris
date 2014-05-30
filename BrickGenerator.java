@@ -18,6 +18,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private Brick[] nextBlock;		//contains the block that comes next
 	private boolean currentCreatedAndMovable; //if there's a block that can be moved, this is true
 	private Random rand;
+	private GraphicsInterface graphicsModule;
 	
 	public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns)
 	{
@@ -136,9 +137,9 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	}
 
 
-	public void registerGraphicsObject(GraphicsInterface gi) {
-		// TODO Auto-generated method stub
-		
+	public void registerGraphicsObject(GraphicsInterface gi)
+	{
+		graphicsModule = gi;
 	}
 	
 	

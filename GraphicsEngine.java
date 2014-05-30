@@ -28,7 +28,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private long previousTick;
 	private long nextTick;
 	private Thread thread;
-
+	BrickGeneratorGraphicsInterface brickGenerator;
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -134,10 +134,10 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	
 	public void paint(Graphics graphics)
 	{	
-		
-		createBackground();
+		//TODO: mutex here
+		createBackground();  //TODO: this has not to be done every time
 		g.setPaint(bg);
-    	g.fillRect(0, 0,  width, height);
+    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if background is not changed
     	graphics.drawImage(buffer, 0, 0, width, height, this);
     	graphics.dispose();
 
@@ -183,7 +183,12 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		
 	}
 
-
+	public void addBrickGenerator(BrickGeneratorGraphicsInterface gi)
+	{
+		brickGenerator = gi;
+		brickGenerator.registerGraphicsObject(this);
+	}
+	
 
 	public void animateRowDeletion(int row)
 	{
