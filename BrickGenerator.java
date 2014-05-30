@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.util.Random;
 
-public class BrickGenerator 
+public class BrickGenerator implements BrickGeneratorGraphicsInterface
 {
 
 	public static final int DIFFERENT_BRICKS_COUNT = 1;
@@ -113,6 +113,31 @@ public class BrickGenerator
 
 		
 		
+		
+	}
+
+
+	public int getRowCount()
+	{
+		return rows;
+	}
+
+
+	public int getColumnCount()
+	{
+		return columns;
+	}
+
+	
+	public Brick[][] getGameAreaBricks()
+	{
+		//TODO: mutex
+		return bricks;
+	}
+
+
+	public void registerGraphicsObject(GraphicsInterface gi) {
+		// TODO Auto-generated method stub
 		
 	}
 	

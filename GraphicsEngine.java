@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 
-public class GraphicsEngine extends Canvas implements Runnable
+public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterface
 {
 	/**
 	 * TODO: find out what the hell is this
@@ -180,6 +180,14 @@ public class GraphicsEngine extends Canvas implements Runnable
 			
 		
 		}
+		
+	}
+
+
+
+	public void animateRowDeletion(int row)
+	{
+		// TODO: add row deletion animation
 		
 	}
 

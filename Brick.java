@@ -37,7 +37,7 @@ public abstract class Brick
 		
 	}
 	
-	private Brick(Brick brick)
+	protected Brick(Brick brick)
 	{
 			this.x = brick.x;
 			this.y = brick.y;
