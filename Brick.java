@@ -4,35 +4,60 @@ import java.awt.Color;
 public abstract class Brick 
 {
 
-	public static final int DIFFERENT_BRICKS_COUNT = 1;
 	enum BrickType{normal, smash, bonus, lightning, dynamite, downrow};
 	
 	protected int x;
 	protected int y;
-	protected int width;
-	protected int height;
+	protected int size;
 	protected int row;
 	protected int index;
 	protected int column;
+	protected int previousRow;
+	protected int previousColumn;
 	protected int previousX;
 	protected int previousY;
 	protected Color color;
 	protected BrickType type;
+	protected int position;    //there are 4 possible positions for each brick while rotated
 	
-	public Brick(int brickX, int brickY, int brickWidth, int brickHeight, int brickIndex, Color brickColor, BrickType brickType)
+	protected static int[] brickCount = {4};    //number of bricks in each different set of bricks
+	
+	
+	public abstract boolean rotate(boolean clockWise);
+	public abstract Brick copyBrick();
+
+	
+	public Brick(int brickX, int brickY, int brickSize, int brickIndex, Color brickColor)
 	{
 		x = brickX;
 		y = brickY;
-		width = brickWidth;
-		height = brickHeight;
+		size = brickSize;
 		index = brickIndex;
 		color = brickColor;
-		type = brickType;
 		
 	}
 	
-	public abstract boolean rotate(boolean clockWise);
-	public abstract int getBrickCount();
+	private Brick(Brick brick)
+	{
+			this.x = brick.x;
+			this.y = brick.y;
+			this.size = brick.size;
+			this.index = brick.index;
+			this.color = new Color(brick.color.getRed(), brick.color.getGreen(), brick.color.getBlue());
+			this.type = brick.type;
+			this.previousX = brick.previousX;
+			this.previousY = brick.previousY;
+			this.row = brick.row;
+			this.column = brick.column;			
+	}
+	
+	
+	
+	//this is dirty, but the number of bricks in a block must be known before an instance is created
+	public static int getBrickCount(int type)
+	{
+		return brickCount[type];
+	}
 	
 	public int getX()
 	{
@@ -44,14 +69,9 @@ public abstract class Brick
 		return y;
 	}
 
-	public int getWidth()
+	public int getSize()
 	{
-		return width;
-	}
-	
-	public int getHeight()
-	{
-		return height;
+		return size;
 	}
 	
 	public int getRowIndex()
@@ -94,11 +114,10 @@ public abstract class Brick
     	
     }
     
-    void moveRight(int move)
+    public void moveRight(int move)
     {
     	
     	
     }
-	
 	
 }

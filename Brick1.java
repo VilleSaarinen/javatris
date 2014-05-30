@@ -11,9 +11,9 @@ import java.awt.Color;
 public class Brick1 extends Brick
 {
 
-	public Brick1(int brickX, int brickY, int brickWidth, int brickHeight, int brickIndex, Color brickColor, BrickType brickType)
+	public Brick1(int brickX, int brickY, int brickSize, int brickIndex, Color brickColor)
 	{
-		super(brickX, brickY, brickWidth, brickHeight, brickIndex, brickColor, brickType);
+		super(brickX, brickY, brickSize, brickIndex, brickColor);
 		
 		switch(brickIndex)
 		{
@@ -24,20 +24,20 @@ public class Brick1 extends Brick
 	        this.column = 7;
 			break;
 		case 2:	 
-			this.x = brickX + brickWidth;
+			this.x = brickX + brickSize;
 	        this.y = brickY;
 	        row = 1;
 	        column = 8;
 			break;
 		case 3:	 
-			this.x = brickX + brickWidth;
-	        this.y = brickY + brickHeight;
+			this.x = brickX + brickSize;
+	        this.y = brickY + brickSize;
 	        row= 2;
 	        column = 8;
 			break;
 		case 4:
-			this.x = brickX + brickWidth*2;
-	        this.y = brickY + brickHeight;
+			this.x = brickX + brickSize*2;
+	        this.y = brickY + brickSize;
 	        row = 2;
 	        column = 9;
 			break;
@@ -68,26 +68,26 @@ public class Brick1 extends Brick
 	        case 0:
 	            column -= 1;
 	            row += 1;
-	            x -= width;
-	            y += height;
+	            x -= size;
+	            y += size;
 	            break;
 	        case 1:
 	            column += 1;
 	            row += 1;
-	            x += width;
-	            y += height;
+	            x += size;
+	            y += size;
 	            break;
 	        case 2:
 	            column += 1;
 	            row -= 1;
-	            x += width;
-	            y -= height;
+	            x += size;
+	            y -= size;
 	            break;
 	        case 3:
 	            column -= 1;
 	            row -= 1;
-	            x -= width;
-	            y -= height;
+	            x -= size;
+	            y -= size;
 	            break;
 	        }
 
@@ -102,26 +102,26 @@ public class Brick1 extends Brick
 	        case 0:
 	            column += 1;
 	            row += 1;
-	            x += width;
-	            y += height;
+	            x += size;
+	            y += size;
 	            break;
 	        case 1:
 	            column += 1;
 	            row -= 1;
-	            x += width;
-	            y -= height;
+	            x += size;
+	            y -= size;
 	            break;
 	        case 2:
 	            column -= 1;
 	            row -= 1;
-	            x -= width;
-	            y -= height;
+	            x -= size;
+	            y -= size;
 	            break;
 	        case 3:
 	            column -= 1;
 	            row += 1;
-	            x -= width;
-	            y += height;
+	            x -= size;
+	            y += size;
 	            break;
 		    }
 
@@ -132,19 +132,19 @@ public class Brick1 extends Brick
 		    {
 		        case 0:
 		            column += 2;
-		            x += width*2;
+		            x += size*2;
 		            break;
 		        case 1:
 		            row -= 2;
-		            y -= height*2;
+		            y -= size*2;
 		            break;
 		        case 2:
 		            column -= 2;
-		            x -= width*2;
+		            x -= size*2;
 		            break;
 		        case 3:
 		            row += 2;
-		            y += height*2;
+		            y += size*2;
 		            break;
 		    }
 

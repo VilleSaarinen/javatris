@@ -53,7 +53,7 @@ public class GameEngine
 		updateTick = 50; 
 		
 		
-		brickHandler = new BrickGenerator(width, height, rows, columns);
+		brickHandler = new BrickGenerator(width/5*3, height/10*9, rows, columns);
 		stats = new Statistics();
 		
 		graphicsEngine.start();
