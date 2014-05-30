@@ -31,6 +31,10 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private Thread thread;
 	private BrickGeneratorGraphicsInterface brickGenerator;
 	private Semaphore lock;
+	private Brick[][] bricks;
+	private Brick[] current;
+	private Brick[] next;
+	private int bgCounter;
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -71,12 +75,14 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         g = (Graphics2D)buffer.getGraphics();
         
         createBackground(); 
-        updateTick = 500;
+        updateTick = 50;
         previousTick = System.currentTimeMillis();  //TODO: necessary?
         nextTick = System.currentTimeMillis();
         
         thread = new Thread(this);
         lock = new Semaphore(1);
+        
+        bgCounter = 0;
 		
 	}
 	
@@ -137,22 +143,87 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	
 	public void paint(Graphics graphics)
 	{	
+		
+		Brick[][] tempGameArea;
+		Brick[] tempCurrent;
+		Brick[] tempNext;
+		boolean bgUpdated = false;
+		
+		if(((bgCounter++)%10) == 0)
+		{	
+			createBackground();  //TODO: this has not to be done every time
+			g.setPaint(bg);		//TODO: if the bg is drawn, every brick has to be drawn as well
+	    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if background is not changed
+	    	bgUpdated = true;
+		}
+		
 		try
 		{
-			lock.acquire(1);
+			lock.acquire();
 		} 
 		catch (InterruptedException e)
 		{
 			return;
 		}
-		System.out.println("got lock");
-		createBackground();  //TODO: this has not to be done every time
-		g.setPaint(bg);
-    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if background is not changed
+
+		
+		tempGameArea = brickGenerator.getGameAreaBricks();
+		tempCurrent = brickGenerator.getCurrentBrick();
+		tempNext = brickGenerator.getNextBrick();
+		
+		
+		if(tempGameArea != null || bgUpdated)
+		{
+			if(tempGameArea != null)
+				bricks = tempGameArea;
+			
+			for(Brick[] row : bricks)
+			{
+				for(Brick brick : row)
+				{
+					if(brick != null)
+					{System.out.println("area");
+						g.fillRoundRect(brick.getX(), brick.getY(), brick.getSize(), brick.getSize(), brick.getSize()/4, brick.getSize()/4);
+					}
+				}			
+			}
+		}
+		
+		if(tempCurrent != null || bgUpdated)
+		{	
+			if(tempCurrent != null)
+				current = tempCurrent;
+			
+			g.setColor(current[0].getColor());
+			
+			for(Brick brick : current)
+			{System.out.println("current");System.out.println(brick.getY());System.out.println(brick.getX());
+				g.fillRoundRect(brick.getX(), brick.getY(), brick.getSize(), brick.getSize(), brick.getSize()/4, brick.getSize()/4);
+			}
+		}
+		
+		if(tempNext != null || bgUpdated )
+		{	
+			if(tempNext != null)
+				next = tempNext;
+			
+			for(Brick brick : next)
+			{System.out.println("next");
+				//g.fillRoundRect(brick.getX(), brick.getY(), brick.getSize(), brick.getSize(), brick.getSize()/4, brick.getSize()/4);
+			}
+		}
+		
+		
+		lock.release();
+		
+		
+		
+
     	graphics.drawImage(buffer, 0, 0, width, height, this);
     	graphics.dispose();
-    	brickGenerator.getGameAreaBricks();
-    	lock.release();
+    	
+    	
+    	
     	
 	}
 	
@@ -198,7 +269,11 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	public void addBrickGenerator(BrickGeneratorGraphicsInterface gi)
 	{
 		brickGenerator = gi;
-		brickGenerator.registerGraphicsObject(this);
+		
+		if(lock == null)
+			lock = new Semaphore(1);
+		
+		brickGenerator.registerGraphicsObject(this, lock);
 	}
 	
 

@@ -1,6 +1,6 @@
 import java.awt.Color;
 import java.util.Random;
-import java.util.concurrent.atomic.*;
+import java.util.concurrent.Semaphore;
 
 public class BrickGenerator implements BrickGeneratorGraphicsInterface
 {
@@ -14,12 +14,19 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private int brickSize;
 	private int rows;
 	private int columns;
-	private AtomicReferenceArray<AtomicReferenceArray<Brick>> bricks;   	//contains all the bricks the game grid
+	private Brick[][] bricks;   	//contains all the bricks the game grid
 	private Brick[] currentBlock;   //contains the current movable set of bricks, i.e. a block 
 	private Brick[] nextBlock;		//contains the block that comes next
 	private boolean currentCreatedAndMovable; //if there's a block that can be moved, this is true
 	private Random rand;
 	private GraphicsInterface graphicsModule;
+	private Semaphore lock;   //to make sure array Bricks[][] isn't modified while drawn by GraphicsInterface
+	
+	//The following boolean values tell the graphicsmodule if the arrays have changed
+	//These values should only be set "false" when returned to the graphics module
+	private boolean currentChanged;
+	private boolean nextChanged;
+	private boolean arrayChanged;
 	
 	public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns)
 	{
@@ -31,18 +38,17 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		this.gameAreaXStart = 20;
 		this.gameAreaYStart = 20; //TODO: as a parameter?
 		
-		bricks = new AtomicReferenceArray<AtomicReferenceArray<Brick>>(rows);
-		
-		for(int i = 0; i < rows; i++)
-		{
-			bricks.set(i, new AtomicReferenceArray<Brick>(columns));
-		}
+		bricks = new Brick[rows][columns];
 		
 		brickSize = gameAreaWidth/rows;
 		
 		currentCreatedAndMovable = false;
 		
 		rand = new Random();
+		
+		currentChanged = true;
+		nextChanged = true;
+		arrayChanged = true;
 		
 	}
 	
@@ -90,6 +96,14 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	
 	public void updateBricks(boolean first)
 	{
+
+		try
+		{
+			lock.acquire();
+		}
+		catch (InterruptedException e) {
+			return;
+		}
 		
 		if(!currentCreatedAndMovable)
 		{
@@ -99,27 +113,31 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	            {
 	                if(currentBlock[i] != null)
 	                {
-	                    bricks.get(currentBlock[i].getRowIndex()-1).set(currentBlock[i].getColumnIndex()-1, currentBlock[i].copyBrick());
+	                    bricks[currentBlock[i].getRowIndex()-1][currentBlock[i].getColumnIndex()-1] = currentBlock[i].copyBrick();
 	                }
 	             }
 	            
+	            arrayChanged = true;
 	            currentBlock = nextBlock;
 	            
 			}
 			else
 			{
-	            currentBlock = createBrick();
-	            first = false;
-				
+	            currentBlock = createBrick();				
 			}
 				
 			nextBlock = createBrick();
+			
+			currentChanged = true;
+			nextChanged = true;
+			
+			
 		}
 
 		//dropCurrent here
 
 		
-		
+		lock.release();
 		
 	}
 
@@ -136,15 +154,46 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	}
 
 	
-	public AtomicReferenceArray<AtomicReferenceArray<Brick>> getGameAreaBricks()
-	{
-		return bricks;
+	public Brick[][] getGameAreaBricks()
+	{		
+		if(arrayChanged)
+		{
+			arrayChanged = false;
+			return bricks;
+		}
+		else
+			return null;
 	}
 
 
-	public void registerGraphicsObject(GraphicsInterface gi)
+	public void registerGraphicsObject(GraphicsInterface gi, Semaphore lock)
 	{
 		graphicsModule = gi;
+		this.lock = lock;
+	}
+
+
+	public Brick[] getCurrentBrick() {
+		
+		if(currentChanged)
+		{
+			currentChanged = false;
+			return currentBlock;
+		}
+		else
+			return null;
+	}
+
+
+	public Brick[] getNextBrick()
+	{
+		if(nextChanged)
+		{
+			nextChanged = false;
+			return nextBlock;
+		}
+		else
+			return null;
 	}
 	
 	
