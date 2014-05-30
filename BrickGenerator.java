@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.util.Random;
+import java.util.concurrent.atomic.*;
 
 public class BrickGenerator implements BrickGeneratorGraphicsInterface
 {
@@ -13,7 +14,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private int brickSize;
 	private int rows;
 	private int columns;
-	private Brick[][] bricks;   	//contains all the bricks the game grid
+	private AtomicReferenceArray<AtomicReferenceArray<Brick>> bricks;   	//contains all the bricks the game grid
 	private Brick[] currentBlock;   //contains the current movable set of bricks, i.e. a block 
 	private Brick[] nextBlock;		//contains the block that comes next
 	private boolean currentCreatedAndMovable; //if there's a block that can be moved, this is true
@@ -30,7 +31,12 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		this.gameAreaXStart = 20;
 		this.gameAreaYStart = 20; //TODO: as a parameter?
 		
-		bricks = new Brick[rows][columns];
+		bricks = new AtomicReferenceArray<AtomicReferenceArray<Brick>>(rows);
+		
+		for(int i = 0; i < rows; i++)
+		{
+			bricks.set(i, new AtomicReferenceArray<Brick>(columns));
+		}
 		
 		brickSize = gameAreaWidth/rows;
 		
@@ -93,7 +99,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	            {
 	                if(currentBlock[i] != null)
 	                {
-	                    bricks[currentBlock[i].getRowIndex()-1][currentBlock[i].getColumnIndex()-1] = currentBlock[i].copyBrick();
+	                    bricks.get(currentBlock[i].getRowIndex()-1).set(currentBlock[i].getColumnIndex()-1, currentBlock[i].copyBrick());
 	                }
 	             }
 	            
@@ -130,9 +136,8 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	}
 
 	
-	public Brick[][] getGameAreaBricks()
+	public AtomicReferenceArray<AtomicReferenceArray<Brick>> getGameAreaBricks()
 	{
-		//TODO: mutex
 		return bricks;
 	}
 

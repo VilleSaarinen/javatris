@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.Semaphore;
 
 
 public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterface
@@ -28,7 +29,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private long previousTick;
 	private long nextTick;
 	private Thread thread;
-	BrickGeneratorGraphicsInterface brickGenerator;
+	private BrickGeneratorGraphicsInterface brickGenerator;
+	private Semaphore lock;
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -74,6 +76,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         nextTick = System.currentTimeMillis();
         
         thread = new Thread(this);
+        lock = new Semaphore(1);
 		
 	}
 	
@@ -134,13 +137,22 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	
 	public void paint(Graphics graphics)
 	{	
-		//TODO: mutex here
+		try
+		{
+			lock.acquire(1);
+		} 
+		catch (InterruptedException e)
+		{
+			return;
+		}
+		System.out.println("got lock");
 		createBackground();  //TODO: this has not to be done every time
 		g.setPaint(bg);
     	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if background is not changed
     	graphics.drawImage(buffer, 0, 0, width, height, this);
     	graphics.dispose();
-
+    	brickGenerator.getGameAreaBricks();
+    	lock.release();
     	
 	}
 	
