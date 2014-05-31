@@ -153,7 +153,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		{	
 			createBackground();  //TODO: this has not to be done every time
 			g.setPaint(bg);		//TODO: if the bg is drawn, every brick has to be drawn as well
-	    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if background is not changed
+	    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if the background is not changed
 	    	bgUpdated = true;
 		}
 		
@@ -182,8 +182,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 				for(Brick brick : row)
 				{
 					if(brick != null)
-					{System.out.println("area");
-						g.fillRoundRect(brick.getX(), brick.getY(), brick.getSize(), brick.getSize(), brick.getSize()/4, brick.getSize()/4);
+					{
+						g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 					}
 				}			
 			}
@@ -197,8 +197,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			g.setColor(current[0].getColor());
 			
 			for(Brick brick : current)
-			{System.out.println("current");System.out.println(brick.getY());System.out.println(brick.getX());
-				g.fillRoundRect(brick.getX(), brick.getY(), brick.getSize(), brick.getSize(), brick.getSize()/4, brick.getSize()/4);
+			{
+				g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 			}
 		}
 		
@@ -208,8 +208,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 				next = tempNext;
 			
 			for(Brick brick : next)
-			{System.out.println("next");
-				//g.fillRoundRect(brick.getX(), brick.getY(), brick.getSize(), brick.getSize(), brick.getSize()/4, brick.getSize()/4);
+			{
+				g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 			}
 		}
 		
