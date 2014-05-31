@@ -11,40 +11,40 @@ import java.awt.image.BufferedImage;
 public class Brick1 extends Brick
 {
 
-	public Brick1(int brickX, int brickY, int brickSize, int brickIndex, BufferedImage brickImage)
+	public Brick1(int gameAreaStartX, int gameAreaStartY, int brickSize, int brickIndex, BufferedImage brickImage)
 	{
-		super(brickX, brickY, brickSize, brickIndex, brickImage);
+		super(brickSize, brickIndex, brickImage);
 		
 		switch(brickIndex)
 		{
 		case 1:	  
-			this.x = brickX;
-	        this.y = brickY;
 	        this.row = 0;
 	        this.column = 7;
+			this.x = gameAreaStartX + this.column*brickSize;
+	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		case 2:	 
-			this.x = brickX + brickSize;
-	        this.y = brickY;
 	        row = 0;
 	        column = 8;
+			this.x = gameAreaStartX + this.column*brickSize;
+	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		case 3:	 
-			this.x = brickX + brickSize;
-	        this.y = brickY + brickSize;
 	        row= 1;
 	        column = 8;
+			this.x = gameAreaStartX + this.column*brickSize;
+	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		case 4:
-			this.x = brickX + brickSize*2;
-	        this.y = brickY + brickSize;
 	        row = 1;
 	        column = 9;
+			this.x = gameAreaStartX + this.column*brickSize;
+	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		}
 		
 	    previousX = x;
-	    previousY = y;  //TODO: are these really needed?
+	    previousY = y;  
 	
 	}
 	

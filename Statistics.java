@@ -7,7 +7,7 @@ public class Statistics
 	
 	public Statistics()
 	{
-		level = 10;
+		level = 1;
 		points = 0;
 	}
 	

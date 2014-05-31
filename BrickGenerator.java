@@ -89,7 +89,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 			block = new Brick[Brick.getBrickCount(blockType)];
 	        for(int i = 0; i < Brick.getBrickCount(blockType); i++)
 	        {
-	            block[i] = new Brick1(gameAreaWidth/rows*6 + gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
+	            block[i] = new Brick1(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
 	        }
 			
 			break;
@@ -121,7 +121,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	            {
 	                if(currentBlock[i] != null)
 	                {
-	                    bricks[currentBlock[i].getRowIndex()-1][currentBlock[i].getColumnIndex()-1] = currentBlock[i];
+	                    bricks[currentBlock[i].getRowIndex()][currentBlock[i].getColumnIndex()] = currentBlock[i];
 	                }
 	             }
 	            
@@ -149,7 +149,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	}
 
 	
-	private void dropCurrent(int drop)
+	public void dropCurrent(int drop)
 	{
 		
 		if(!currentCreatedAndMovable)
@@ -192,7 +192,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	}
 	
 	
-	private void moveSideways(int move)
+	public void moveSideways(int move)
 	{
 		
 		int unit; 
@@ -222,7 +222,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 			return;
 		}		
 		
-		for(int h = 0; h <= Math.abs(move); h++)
+		for(int h = 0; h < Math.abs(move); h++)
 		{
 			for(int i = 0; i < currentBlock.length; i++)
 			{
@@ -240,7 +240,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 				else
 					currentBlock[i].moveRight(1);
 			}
-			
+			currentChanged = true;
 		}
 		
 		lock.release();

@@ -12,6 +12,14 @@ public class UserInput implements MouseListener, KeyListener,
 		MouseMotionListener, MouseWheelListener 
 {
 
+	private GameEngineUserAction gameEngine;
+	
+	public UserInput(GameEngineUserAction gameEngine)
+	{
+		this.gameEngine = gameEngine;
+	}
+	
+	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) 
 	{
@@ -78,16 +86,16 @@ public class UserInput implements MouseListener, KeyListener,
 			System.out.println("ctrl");
 			break;
 		case KeyEvent.VK_RIGHT:
-			System.out.println("right");
+			gameEngine.moveSideways(1);
 			break;
 		case KeyEvent.VK_LEFT:
-			System.out.println("left");
+			gameEngine.moveSideways(-1);
 			break;
 		case KeyEvent.VK_UP:
 			System.out.println("up");
 			break;
 		case KeyEvent.VK_DOWN:
-			System.out.println("down");
+			
 			break;
 		
 		}

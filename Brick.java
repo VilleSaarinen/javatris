@@ -1,5 +1,6 @@
 import java.awt.image.BufferedImage;
-
+import java.util.Stack;
+import java.awt.Point;
 
 public abstract class Brick 
 {
@@ -26,10 +27,8 @@ public abstract class Brick
 	public abstract boolean rotate(boolean clockWise);
 
 	
-	public Brick(int brickX, int brickY, int brickSize, int brickIndex, BufferedImage brickImage)
+	public Brick(int brickSize, int brickIndex, BufferedImage brickImage)
 	{
-		x = brickX;
-		y = brickY;
 		size = brickSize;
 		index = brickIndex;
 		image = brickImage;

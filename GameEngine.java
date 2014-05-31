@@ -1,11 +1,11 @@
 
-public class GameEngine
+public class GameEngine implements GameEngineUserAction
 {
 	
 	private final int width = 1000;
 	private final int height = 1000;
 	private final int rows = 30;
-	private final int columns = 15;
+	private final int columns = 20;
 	private int gameAreaWidth;
 	private int gameAreaHeight;
 	private final int gameAreaXStart = 20;
@@ -21,7 +21,7 @@ public class GameEngine
 	public GameEngine()
 	{
 
-		ui = new UserInput();
+		ui = new UserInput(this);
 		
 		gameAreaWidth = width/5*3;
 		gameAreaHeight = height/10*9;
@@ -151,6 +151,18 @@ public class GameEngine
 			
 		}
 		
+	}
+
+
+	public void dropCurrent(int drop) 
+	{
+		brickGenerator.dropCurrent(drop);
+	}
+
+	
+	public void moveSideways(int move)
+	{
+		brickGenerator.moveSideways(move);
 	}
 	
 }
