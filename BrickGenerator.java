@@ -1,4 +1,4 @@
-import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
@@ -21,6 +21,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private Random rand;
 	private GraphicsInterface graphicsModule;
 	private Semaphore lock;   //to make sure array Bricks[][] isn't modified while drawn by GraphicsInterface
+	private ImageHandler images;
 	
 	//The following boolean values tell the graphicsmodule if the arrays have changed
 	//These values should only be set "false" when returned to the graphics module
@@ -53,27 +54,29 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		
 		this.stats = stats;
 		
+		images = new ImageHandler(brickSize);
+		
 	}
 	
 	private Brick[] createBrick()
 	{
-		Color color = null;
+		BufferedImage image = null;
 		Brick[] block = null;
 		int blockType;
 
 		switch(Math.abs(rand.nextInt()) % 6)
 		{
-		    case 0: color = new Color(50, 0, 50);
+		    case 0: image = images.getImageRef(0);
 		        break;
-		    case 1: color = new Color(50, 0, 200);
+		    case 1: image = images.getImageRef(1);
 		        break;
-		    case 2: color = new Color(0, 153, 50);
+		    case 2: image = images.getImageRef(2);
 		        break;
-		    case 3: color = new Color(0, 0, 50);
+		    case 3: image = images.getImageRef(3);
 		        break;
-		    case 4: color = new Color(255, 255, 50);
+		    case 4: image = images.getImageRef(4);
 		        break;
-		    case 5: color = new Color(200, 0, 0);
+		    case 5: image = images.getImageRef(5);
 		        break;
 	  	}
 		
@@ -84,7 +87,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 			block = new Brick[Brick.getBrickCount(blockType)];
 	        for(int i = 0; i < Brick.getBrickCount(blockType); i++)
 	        {
-	            block[i] = new Brick1(gameAreaWidth/rows*6 + gameAreaXStart, gameAreaYStart, brickSize , i+1, color);
+	            block[i] = new Brick1(gameAreaWidth/rows*6 + gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
 	        }
 			
 			break;

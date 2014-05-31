@@ -1,4 +1,4 @@
-import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 /*
  *   _ _
@@ -11,9 +11,9 @@ import java.awt.Color;
 public class Brick1 extends Brick
 {
 
-	public Brick1(int brickX, int brickY, int brickSize, int brickIndex, Color brickColor)
+	public Brick1(int brickX, int brickY, int brickSize, int brickIndex, BufferedImage brickImage)
 	{
-		super(brickX, brickY, brickSize, brickIndex, brickColor);
+		super(brickX, brickY, brickSize, brickIndex, brickImage);
 		
 		switch(brickIndex)
 		{

@@ -1,4 +1,4 @@
-import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 
 public abstract class Brick 
@@ -16,7 +16,7 @@ public abstract class Brick
 	protected int previousColumn;
 	protected int previousX;
 	protected int previousY;
-	protected Color color;
+	protected BufferedImage image;
 	protected BrickType type;
 	protected int position;    //there are 4 possible positions for each brick while rotated
 	
@@ -26,13 +26,13 @@ public abstract class Brick
 	public abstract boolean rotate(boolean clockWise);
 
 	
-	public Brick(int brickX, int brickY, int brickSize, int brickIndex, Color brickColor)
+	public Brick(int brickX, int brickY, int brickSize, int brickIndex, BufferedImage brickImage)
 	{
 		x = brickX;
 		y = brickY;
 		size = brickSize;
 		index = brickIndex;
-		color = brickColor;
+		image = brickImage;
 		
 	}
 	
@@ -78,9 +78,9 @@ public abstract class Brick
 		return previousY;
 	}
 	
-	public Color getColor()
+	public BufferedImage getImage()
 	{
-		return color;
+		return image;
 	}
 	
 	public BrickType getBrickType()

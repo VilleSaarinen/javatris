@@ -151,8 +151,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		
 		if(((bgCounter++)%10) == 0)
 		{	
-			createBackground();  //TODO: this has not to be done every time
-			g.setPaint(bg);		//TODO: if the bg is drawn, every brick has to be drawn as well
+			createBackground(); 
+			g.setPaint(bg);		
 	    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if the background is not changed
 	    	bgUpdated = true;
 		}
@@ -182,8 +182,10 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 				for(Brick brick : row)
 				{
 					if(brick != null)
-					{System.out.println("update");g.setColor(brick.getColor());
-						g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
+					{
+						g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
+						//g.setColor(brick.getColor());
+						//g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 					}
 				}			
 			}
@@ -194,11 +196,12 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			if(tempCurrent != null)
 				current = tempCurrent;
 			
-			g.setColor(current[0].getColor());
+			//g.setColor(current[0].getColor());
 			
 			for(Brick brick : current)
 			{
-				g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
+				g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
+				//g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 			}
 		}
 		
@@ -207,11 +210,12 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			if(tempNext != null)
 				next = tempNext;
 			
-			g.setColor(next[0].getColor());
+			//g.setColor(next[0].getColor());
 			
 			for(Brick brick : next)
 			{
-				g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
+				g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
+				//g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 			}
 		}
 		
