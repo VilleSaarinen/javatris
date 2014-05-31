@@ -313,10 +313,10 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private void drawGameAreaLimits(Graphics g)
 	{
 		g.setColor(lineColor);
-		g.drawLine(gameAreaXStart, gameAreaYStart, gameAreaXStart + gameAreaWidth, gameAreaYStart);
-		g.drawLine(gameAreaXStart, gameAreaYStart, gameAreaXStart, gameAreaYStart + gameAreaHeight);
+		g.drawLine(gameAreaXStart-2, gameAreaYStart, gameAreaXStart + gameAreaWidth, gameAreaYStart);
+		g.drawLine(gameAreaXStart-2, gameAreaYStart, gameAreaXStart-2, gameAreaYStart + gameAreaHeight);
 		g.drawLine(gameAreaXStart + gameAreaWidth, gameAreaYStart, gameAreaXStart + gameAreaWidth, gameAreaYStart + gameAreaHeight);
-		g.drawLine(gameAreaXStart, gameAreaYStart + gameAreaHeight, gameAreaXStart + gameAreaWidth, gameAreaYStart + gameAreaHeight);
+		g.drawLine(gameAreaXStart-2, gameAreaYStart + gameAreaHeight, gameAreaXStart + gameAreaWidth, gameAreaYStart + gameAreaHeight);
 	}
 	
 
