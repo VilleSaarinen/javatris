@@ -24,7 +24,7 @@ public abstract class Brick
 	protected BrickType type;
 	protected int position;    //there are 4 possible positions for each brick while rotated
 	
-	protected static int[] brickCount = {4, 4, 4, 4};    //number of bricks in each different set of bricks from 1 to 4
+	protected static int[] brickCount = {4, 4, 4, 4, 4};    //number of bricks in each different set of bricks from 1 to 5
 	
 	
 	public abstract void rotate(boolean clockWise);
