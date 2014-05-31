@@ -23,34 +23,29 @@ public class Brick1 extends Brick
 	        this.column = 7;
 	        this.relativeRow = 0;
 	        this.relativeColumn = 0;
-			this.x = gameAreaStartX + this.column*brickSize;
-	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		case 2:	 
 	        row = 0;
 	        column = 8;
 	        this.relativeRow = 0;
 	        this.relativeColumn = 1;
-			this.x = gameAreaStartX + this.column*brickSize;
-	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		case 3:	 
 	        row= 1;
 	        column = 8;
 	        this.relativeRow = 1;
 	        this.relativeColumn = 1;
-			this.x = gameAreaStartX + this.column*brickSize;
-	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		case 4:
 	        row = 1;
 	        column = 9;
 	        this.relativeRow = 1;
 	        this.relativeColumn = 2;
-			this.x = gameAreaStartX + this.column*brickSize;
-	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		}
+		
+		this.x = gameAreaStartX + this.column*brickSize;
+        this.y = gameAreaStartY + this.row*brickSize;
 	
 	}
 	
