@@ -191,7 +191,60 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		
 	}
 	
-
+	
+	private void moveSideways(int move)
+	{
+		
+		int unit; 
+		boolean left;
+		
+		if(move >= 0)
+		{
+			unit = 1;
+			left = false;
+		}
+		else
+		{
+			unit = -1;
+			left = true;
+		}
+		
+		
+		if(!currentCreatedAndMovable)
+			return;
+		
+		try 
+		{
+			lock.acquire();
+		} 
+		catch (InterruptedException e)
+		{
+			return;
+		}		
+		
+		for(int h = 0; h <= Math.abs(move); h++)
+		{
+			for(int i = 0; i < currentBlock.length; i++)
+			{
+				if(!isAbleToMove(currentBlock[i], currentBlock[i].getRowIndex(), currentBlock[i].getColumnIndex() + unit))
+				{
+					lock.release();
+					return;
+				}
+			}			
+			
+			for(int i = 0; i < currentBlock.length; i++)
+			{
+				if(left)
+					currentBlock[i].moveLeft(1);
+				else
+					currentBlock[i].moveRight(1);
+			}
+			
+		}
+		
+		lock.release();
+	}
 	
 	
 	private boolean isAbleToMove(Brick brick, int rowToMove, int columnToMove)

@@ -100,13 +100,22 @@ public abstract class Brick
 	
     public void moveLeft(int move)
     {
-    	
+	    previousY = y;
+	    previousX = x;
+	    previousColumn = column;
+	    previousRow = row;
+	    x -= size*move;
+	    column -= move;
     }
     
     public void moveRight(int move)
     {
-    	
-    	
+	    previousY = y;
+	    previousX = x;
+	    previousColumn = column;
+	    previousRow = row;
+	    x += size*move;
+	    column += move;	
     }
 	
 }
