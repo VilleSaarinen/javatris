@@ -15,8 +15,7 @@ public abstract class Brick
 	protected int column;
 	protected int previousRow;
 	protected int previousColumn;
-	protected int previousX;
-	protected int previousY;
+	protected Stack<Point> previousPoints;
 	protected BufferedImage image;
 	protected BrickType type;
 	protected int position;    //there are 4 possible positions for each brick while rotated
@@ -31,8 +30,9 @@ public abstract class Brick
 	{
 		size = brickSize;
 		index = brickIndex;
-		image = brickImage;
+		image = brickImage;	
 		
+		previousPoints = new Stack<Point>();
 	}
 	
 	
@@ -67,15 +67,15 @@ public abstract class Brick
 		return column;
 	}
 	
-	public int getPreviousX()
+	public Point getPreviousPoint()
 	{
-		return previousX;
+		
+		if(previousPoints.empty())	
+			return null;
+		else
+			return previousPoints.pop();
 	}
 	
-	public int getPreviousY()
-	{
-		return previousY;
-	}
 	
 	public BufferedImage getImage()
 	{
@@ -89,8 +89,7 @@ public abstract class Brick
     
 	public void dropBrick(int drop)
 	{
-	    previousY = y;
-	    previousX = x;
+		previousPoints.push(new Point(x,y));
 	    previousColumn = column;
 	    previousRow = row;
 	    y += size*drop;
@@ -99,8 +98,7 @@ public abstract class Brick
 	
     public void moveLeft(int move)
     {
-	    previousY = y;
-	    previousX = x;
+    	previousPoints.push(new Point(x,y));
 	    previousColumn = column;
 	    previousRow = row;
 	    x -= size*move;
@@ -109,8 +107,7 @@ public abstract class Brick
     
     public void moveRight(int move)
     {
-	    previousY = y;
-	    previousX = x;
+    	previousPoints.push(new Point(x,y));
 	    previousColumn = column;
 	    previousRow = row;
 	    x += size*move;

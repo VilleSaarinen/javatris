@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 /*
@@ -42,9 +43,6 @@ public class Brick1 extends Brick
 	        this.y = gameAreaStartY + this.row*brickSize;
 			break;
 		}
-		
-	    previousX = x;
-	    previousY = y;  
 	
 	}
 	
@@ -55,8 +53,7 @@ public class Brick1 extends Brick
 		position++;
 	    position %= 4;
 
-	    previousX = x;
-	    previousY = y;
+	    previousPoints.push(new Point(x,y));
 	    previousColumn = column;
 	    previousRow = row;
 
