@@ -9,8 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.Semaphore;
 import java.awt.Point;
-import java.util.Iterator;
-import java.util.Vector;
+import java.awt.Font;
 
 
 public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterface
@@ -46,6 +45,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private int bgCounter;
 	private Color lineColor;
 	private Point previousBrickCoordinates;
+	private ImageHandler images;
+	private Font font;
+	private Color fontColor;
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -57,7 +59,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	}
 	
 	public GraphicsEngine(UserInput ui, int windowWidth, int windowHeight, int gameAreaWidth, int gameAreaHeight,
-			int gameAreaXStart, int gameAreaYStart) 
+			int gameAreaXStart, int gameAreaYStart, ImageHandler images) 
 	{
 		super();
 		this.windowWidth = windowWidth;
@@ -105,6 +107,11 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         previousBrickCoordinates = new Point();
         
         lineColor = new Color(10, 10, 10);
+        
+        this.images = images;
+        
+        font = new Font("serif", Font.PLAIN, 30);
+        fontColor = new Color(200,10,100);
 		
 	}
 	
@@ -221,23 +228,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			if(tempCurrent != null)
 				current = tempCurrent;
 			
-	    	
-			if(!bgUpdated)
-			{
-				for(int i = 0; i < current.length; i++)
-		    	{
-		    		while((previousBrickCoordinates = current[i].getPreviousPoint()) != null)
-		    		{
-		    			g.drawImage(bgBuffer.getSubimage(previousBrickCoordinates.x, previousBrickCoordinates.y, 
-		    					current[i].getSize(), current[i].getSize()), previousBrickCoordinates.x, previousBrickCoordinates.y, this);
-		    		}
-		    	}
-			}
-		
-			for(Brick brick : current)
-			{
-				g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
-			}
+	    	updateCurrent(bgUpdated);
+			
 		}
 		
 		if(tempNext != null || bgUpdated )
@@ -245,10 +237,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			if(tempNext != null)
 				next = tempNext;
 			
-			for(Brick brick : next)
-			{
-				g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
-			}
+			updateNext();
 		}
 		
 		
@@ -326,4 +315,50 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		
 	}
 
+	
+	private void updateCurrent(boolean bgUpdated)
+	{
+		if(!bgUpdated)
+		{
+			for(int i = 0; i < current.length; i++)
+	    	{
+	    		while((previousBrickCoordinates = current[i].getPreviousPoint()) != null)
+	    		{
+	    			g.drawImage(bgBuffer.getSubimage(previousBrickCoordinates.x, previousBrickCoordinates.y, 
+	    					current[i].getSize(), current[i].getSize()), previousBrickCoordinates.x, previousBrickCoordinates.y, this);
+	    		}
+	    	}
+		}
+	
+		for(Brick brick : current)
+		{
+			g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
+		}
+		
+	}
+	
+	
+	private void updateNext()
+	{
+		BufferedImage image = images.getNextBrickBackground();
+		
+		int xStart = gameAreaXStart + gameAreaWidth + 30;
+		
+		g.drawImage(image, xStart, gameAreaYStart, 
+				image.getWidth(), image.getHeight(), this);
+		
+		g.setFont(font);
+		g.setColor(fontColor);
+		
+		g.drawString("Next:", xStart + 10, gameAreaYStart + 30);
+		
+		for(Brick brick : next)
+		{
+			g.drawImage(brick.getImage(), xStart + 30 + brick.getRelativeColumnIndex()*brick.getSize(),
+					gameAreaYStart + 50 + brick.getRelativeRowIndex()*brick.getSize(), this);
+		}
+	}
+	
+	
+	
 }

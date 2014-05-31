@@ -32,7 +32,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private Statistics stats;
 	
 	public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns, int gameAreaStartX, 
-			int gameAreaStartY, Statistics stats)
+			int gameAreaStartY, int brickSize, Statistics stats, ImageHandler image)
 	{
 		this.gameAreaWidth = gameAreaWidth;
 		this.gameAreaHeight = gameAreaHeight;
@@ -44,7 +44,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		
 		bricks = new Brick[rows][columns];
 		
-		brickSize = gameAreaHeight/rows;
+		this.brickSize = brickSize;
 		
 		currentCreatedAndMovable = false;
 		
@@ -56,7 +56,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		
 		this.stats = stats;
 		
-		images = new ImageHandler(brickSize);
+		this.images = image;
 		
 	}
 	
@@ -352,5 +352,8 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 			return null;
 	}
 
-	
+	public ImageHandler getImageHandler()
+	{
+		return images;
+	}
 }

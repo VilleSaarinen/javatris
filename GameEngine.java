@@ -11,10 +11,11 @@ public class GameEngine implements GameEngineUserAction
 	private final int gameAreaXStart = 20;
 	private final int gameAreaYStart = 20;   //TODO: all final parameters in a configuration file?
 	private BrickGenerator brickGenerator;
+	private int brickSize;
 	private UserInput ui;
 	private GraphicsEngine graphicsEngine;
 	private Statistics stats;
-
+	private ImageHandler images;
 
 	
 	
@@ -26,7 +27,11 @@ public class GameEngine implements GameEngineUserAction
 		gameAreaWidth = width/5*3;
 		gameAreaHeight = height/10*9;
 		
-		graphicsEngine = new GraphicsEngine(ui, width, height, gameAreaWidth, gameAreaHeight, gameAreaXStart, gameAreaYStart);			
+		brickSize = gameAreaHeight/rows;
+		
+		images = new ImageHandler(brickSize);
+		
+		graphicsEngine = new GraphicsEngine(ui, width, height, gameAreaWidth, gameAreaHeight, gameAreaXStart, gameAreaYStart, images);			
 	}
 	
 	public void startNewGame()
@@ -60,13 +65,15 @@ public class GameEngine implements GameEngineUserAction
 		
 		stats = new Statistics();
 		
-		brickGenerator = new BrickGenerator(gameAreaWidth, gameAreaHeight, rows, columns, gameAreaXStart, gameAreaYStart, stats);
+		brickGenerator = new BrickGenerator(gameAreaWidth, gameAreaHeight, rows, columns, gameAreaXStart, gameAreaYStart, 
+											brickSize, stats, images);
+		
+		graphicsEngine.start();
 		
 		graphicsEngine.addBrickGenerator(brickGenerator);
 		
 		brickGenerator.updateBricks(true);
-		
-		graphicsEngine.start();
+			
 
 		for(counter = 0; true; counter++)
 		{

@@ -15,6 +15,8 @@ public abstract class Brick
 	protected int column;
 	protected int previousRow;
 	protected int previousColumn;
+	protected int relativeRow;
+	protected int relativeColumn;
 	protected Stack<Point> previousPoints;   //this is for the graphics module to hide previous positions on the screen
 	protected int previousX;
 	protected int previousY;
@@ -71,6 +73,17 @@ public abstract class Brick
 	{
 		return column;
 	}
+	
+	public int getRelativeRowIndex()
+	{
+		return relativeRow;
+	}
+	
+	public int getRelativeColumnIndex()
+	{
+		return relativeColumn;
+	}
+	
 	
 	public Point getPreviousPoint()
 	{

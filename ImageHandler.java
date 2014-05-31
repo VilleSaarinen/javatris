@@ -2,11 +2,17 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Color;
 
+
 //This class saves different images of bricks
 
 public class ImageHandler
 {
+	public final int infoBackgroundWidth = 180;
+	public final int infoBackgroundHeight = 170;
+	
 	private BufferedImage[] standardBricks;
+	private BufferedImage nextBrickBackground;
+	private Color infoBackgroundColor;
 	
 	public ImageHandler(int size)
 	{
@@ -45,12 +51,24 @@ public class ImageHandler
 		g.setColor(new Color(200, 0, 0));
 		g.fillRect(0, 0, size, size);
 		
+		infoBackgroundColor = new Color(50, 50, 50);
+		
+		nextBrickBackground = new BufferedImage(infoBackgroundWidth, infoBackgroundHeight, BufferedImage.TYPE_INT_RGB);
+		g = nextBrickBackground.getGraphics();
+		g.setColor(infoBackgroundColor);
+		g.fillRect(0, 0, infoBackgroundWidth, infoBackgroundHeight);
 	}
 	
 	
 	public BufferedImage getImageRef(int index)
 	{
 		return standardBricks[index];
+	}
+	
+	
+	public BufferedImage getNextBrickBackground()
+	{
+		return nextBrickBackground;
 	}
 	
 	
