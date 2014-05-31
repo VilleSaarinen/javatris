@@ -35,6 +35,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private Brick[] current;
 	private Brick[] next;
 	private int bgCounter;
+	private BufferedImage[] previousBricksImages;
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -83,6 +84,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         lock = new Semaphore(1);
         
         bgCounter = 0;
+        
+        previousBricksImages = new BufferedImage[BrickGenerator.maxBricksInBlocks];
 		
 	}
 	
@@ -135,7 +138,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         else blue2 = blue2-1;
                               
 	    bg = new GradientPaint(0, this.getHeight(), new Color(red1, green1, blue1), this.getWidth(), 0, new Color(red2, green2, blue2));
-		
+	    
 	}
 	
 	
@@ -154,6 +157,14 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			createBackground(); 
 			g.setPaint(bg);		
 	    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if the background is not changed
+	    	
+	    	if(current != null)
+		    	for(int i = 0; i < current.length; i++)
+		    	{
+		    		previousBricksImages[i] = buffer.getSubimage(current[i].getPreviousX(), current[i].getPreviousY(),
+		    				current[i].getSize(), current[i].getSize());
+		    	}
+	    	
 	    	bgUpdated = true;
 		}
 		
@@ -184,8 +195,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 					if(brick != null)
 					{
 						g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
-						//g.setColor(brick.getColor());
-						//g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 					}
 				}			
 			}
@@ -196,12 +205,20 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			if(tempCurrent != null)
 				current = tempCurrent;
 			
-			//g.setColor(current[0].getColor());
+			if(!bgUpdated)
+			{
+				for(int i = 0; i < current.length; i++)
+				{		
+					g.drawImage(previousBricksImages[i], current[i].getPreviousX(), current[i].getPreviousY(), this);
+				}
+			}
 			
 			for(Brick brick : current)
 			{
+				
 				g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
-				//g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
+				
+				
 			}
 		}
 		
@@ -210,12 +227,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			if(tempNext != null)
 				next = tempNext;
 			
-			//g.setColor(next[0].getColor());
-			
 			for(Brick brick : next)
 			{
 				g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
-				//g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 			}
 		}
 		

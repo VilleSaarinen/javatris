@@ -6,6 +6,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 {
 
 	public static final int DIFFERENT_BRICKS_COUNT = 1;
+	public static final int maxBricksInBlocks = 5;
 	
 	private int gameAreaWidth;   
 	private int gameAreaHeight;
@@ -22,7 +23,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private GraphicsInterface graphicsModule;
 	private Semaphore lock;   //to make sure array Bricks[][] isn't modified while drawn by GraphicsInterface
 	private ImageHandler images;
-	
+
 	//The following boolean values tell the graphicsmodule if the arrays have changed
 	//These values should only be set "false" when returned to the graphics module
 	private boolean currentChanged;
@@ -257,6 +258,6 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		else
 			return null;
 	}
-	
+
 	
 }
