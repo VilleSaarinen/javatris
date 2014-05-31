@@ -18,8 +18,12 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private static final long serialVersionUID = 1L;  
 	
 	private Frame frame;
-	private int width;
-	private int height;
+	private int windowWidth;
+	private int windowHeight;
+	private int gameAreaWidth;
+	private int gameAreaHeight;
+	private int gameAreaXStart;
+	private int gameAreaYStart;
 	private GradientPaint bg;
 	private int red1, green1, blue1, red2, green2, blue2;
 	private boolean r1, r2, g1, g2, b1, b2;
@@ -36,6 +40,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private Brick[] next;
 	private int bgCounter;
 	private BufferedImage[] previousBricksImages;
+	private Color lineColor;
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -46,16 +51,21 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		    }	 
 	}
 	
-	public GraphicsEngine(UserInput ui, int x, int y) 
+	public GraphicsEngine(UserInput ui, int windowWidth, int windowHeight, int gameAreaWidth, int gameAreaHeight,
+			int gameAreaXStart, int gameAreaYStart) 
 	{
 		super();
-		this.width = x;
-		this.height = y;
+		this.windowWidth = windowWidth;
+		this.windowHeight = windowHeight;
+		this.gameAreaWidth = gameAreaWidth;
+		this.gameAreaHeight = gameAreaHeight; 
+		this.gameAreaXStart = gameAreaXStart;
+		this.gameAreaYStart = gameAreaYStart; 
 		
 		frame = new Frame();
-        frame.setSize(x, y);
+        frame.setSize(windowWidth, windowHeight);
         frame.setVisible(true);
-        this.setSize(x, y);
+        this.setSize(windowWidth, windowHeight);
         frame.add(this);
         frame.addWindowListener(new CloseWindow());
         
@@ -72,7 +82,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         r1 = r2 = g1 = g2 = b1 = b2 = true;
         
-        buffer = new BufferedImage(x, y, BufferedImage.TYPE_INT_RGB);
+        buffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D)buffer.getGraphics();
         
         createBackground(); 
@@ -86,6 +96,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         bgCounter = 0;
         
         previousBricksImages = new BufferedImage[BrickGenerator.maxBricksInBlocks];
+        
+        lineColor = new Color(10, 10, 10);
 		
 	}
 	
@@ -142,8 +154,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	}
 	
 	
-	
-	
 	public void paint(Graphics graphics)
 	{	
 		
@@ -156,7 +166,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		{	
 			createBackground(); 
 			g.setPaint(bg);		
-	    	g.fillRect(0, 0,  width, height);  //TODO: paint only small area if the background is not changed
+	    	g.fillRect(0, 0,  windowWidth, windowHeight);  //TODO: paint only small area if the background is not changed
 	    	
 	    	if(current != null)
 		    	for(int i = 0; i < current.length; i++)
@@ -164,6 +174,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		    		previousBricksImages[i] = buffer.getSubimage(current[i].getPreviousX(), current[i].getPreviousY(),
 		    				current[i].getSize(), current[i].getSize());
 		    	}
+	    	
+	    	drawGameAreaLimits(g);
 	    	
 	    	bgUpdated = true;
 		}
@@ -236,15 +248,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		
 		lock.release();
 		
-		
-		
-
-    	graphics.drawImage(buffer, 0, 0, width, height, this);
+    	graphics.drawImage(buffer, 0, 0, windowWidth, windowHeight, this);
     	graphics.dispose();
-    	
-    	
-    	
-    	
+    		
 	}
 	
 	
@@ -258,7 +264,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		thread.start();
 	}
 	
-	@Override
+	
 	public void run() 
 	{
 		
@@ -285,7 +291,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		}
 		
 	}
-
+	
+	
 	public void addBrickGenerator(BrickGeneratorGraphicsInterface gi)
 	{
 		brickGenerator = gi;
@@ -294,6 +301,16 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			lock = new Semaphore(1);
 		
 		brickGenerator.registerGraphicsObject(this, lock);
+	}
+	
+	
+	private void drawGameAreaLimits(Graphics g)
+	{
+		g.setColor(lineColor);
+		g.drawLine(gameAreaXStart, gameAreaYStart, gameAreaXStart + gameAreaWidth, gameAreaYStart);
+		g.drawLine(gameAreaXStart, gameAreaYStart, gameAreaXStart, gameAreaYStart + gameAreaHeight);
+		g.drawLine(gameAreaXStart + gameAreaWidth, gameAreaYStart, gameAreaXStart + gameAreaWidth, gameAreaYStart + gameAreaHeight);
+		g.drawLine(gameAreaXStart, gameAreaYStart + gameAreaHeight, gameAreaXStart + gameAreaWidth, gameAreaYStart + gameAreaHeight);
 	}
 	
 

@@ -20,25 +20,25 @@ public class Brick1 extends Brick
 		case 1:	  
 			this.x = brickX;
 	        this.y = brickY;
-	        this.row = 1;
+	        this.row = 0;
 	        this.column = 7;
 			break;
 		case 2:	 
 			this.x = brickX + brickSize;
 	        this.y = brickY;
-	        row = 1;
+	        row = 0;
 	        column = 8;
 			break;
 		case 3:	 
 			this.x = brickX + brickSize;
 	        this.y = brickY + brickSize;
-	        row= 2;
+	        row= 1;
 	        column = 8;
 			break;
 		case 4:
 			this.x = brickX + brickSize*2;
 	        this.y = brickY + brickSize;
-	        row = 2;
+	        row = 1;
 	        column = 9;
 			break;
 		}

@@ -4,8 +4,12 @@ public class GameEngine
 	
 	private final int width = 1000;
 	private final int height = 1000;
-	private final int rows = 15;
-	private final int columns = 30;
+	private final int rows = 30;
+	private final int columns = 15;
+	private int gameAreaWidth;
+	private int gameAreaHeight;
+	private final int gameAreaXStart = 20;
+	private final int gameAreaYStart = 20;   //TODO: all final parameters in a configuration file?
 	private BrickGenerator brickGenerator;
 	private UserInput ui;
 	private GraphicsEngine graphicsEngine;
@@ -19,8 +23,10 @@ public class GameEngine
 
 		ui = new UserInput();
 		
-		graphicsEngine = new GraphicsEngine(ui, width, height);
-				
+		gameAreaWidth = width/5*3;
+		gameAreaHeight = height/10*9;
+		
+		graphicsEngine = new GraphicsEngine(ui, width, height, gameAreaWidth, gameAreaHeight, gameAreaXStart, gameAreaYStart);			
 	}
 	
 	public void startNewGame()
@@ -54,7 +60,7 @@ public class GameEngine
 		
 		stats = new Statistics();
 		
-		brickGenerator = new BrickGenerator(width/5*3, height/10*9, rows, columns, stats);
+		brickGenerator = new BrickGenerator(gameAreaWidth, gameAreaHeight, rows, columns, gameAreaXStart, gameAreaYStart, stats);
 		
 		graphicsEngine.addBrickGenerator(brickGenerator);
 		

@@ -31,19 +31,20 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private boolean arrayChanged;
 	private Statistics stats;
 	
-	public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns, Statistics stats)
+	public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns, int gameAreaStartX, 
+			int gameAreaStartY, Statistics stats)
 	{
 		this.gameAreaWidth = gameAreaWidth;
 		this.gameAreaHeight = gameAreaHeight;
 		this.rows = rows;
 		this.columns = columns;
 		
-		this.gameAreaXStart = 20;
-		this.gameAreaYStart = 20; //TODO: as a parameter?
+		this.gameAreaXStart = gameAreaStartX;
+		this.gameAreaYStart = gameAreaStartY;
 		
 		bricks = new Brick[rows][columns];
 		
-		brickSize = gameAreaWidth/rows;
+		brickSize = gameAreaHeight/rows;
 		
 		currentCreatedAndMovable = false;
 		
@@ -184,12 +185,13 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 			}
 			
 			currentChanged = true;
-			
 		}
 		
 		lock.release();
 		
 	}
+	
+
 	
 	
 	private boolean isAbleToMove(Brick brick, int rowToMove, int columnToMove)
