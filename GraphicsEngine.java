@@ -46,8 +46,11 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	private Color lineColor;
 	private Point previousBrickCoordinates;
 	private ImageHandler images;
-	private Font font;
+	private Font textFont;
+	private Font numberFont;
+	private Font pointsFont;
 	private Color fontColor;
+	private Statistics stats;
 	
 	
 	private class CloseWindow extends WindowAdapter
@@ -59,7 +62,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	}
 	
 	public GraphicsEngine(UserInput ui, int windowWidth, int windowHeight, int gameAreaWidth, int gameAreaHeight,
-			int gameAreaXStart, int gameAreaYStart, ImageHandler images) 
+			int gameAreaXStart, int gameAreaYStart, ImageHandler images, Statistics stats) 
 	{
 		super();
 		this.windowWidth = windowWidth;
@@ -110,8 +113,12 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         this.images = images;
         
-        font = new Font("serif", Font.PLAIN, 30);
+        textFont = new Font("serif", Font.ITALIC, 30);
+        numberFont = new Font("serif", Font.BOLD, 50);
+        pointsFont = new Font(Font.MONOSPACED, Font.BOLD, 35);
         fontColor = new Color(200,10,100);
+        
+        this.stats = stats;
 		
 	}
 	
@@ -187,7 +194,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 			g.setPaint(bg);		
 	    	g.fillRect(0, 0,  windowWidth, windowHeight);  //TODO: paint only small area if the background is not changed
 	    	drawGameAreaLimits(g);
-	    	
+	    	updateLevel();
+	    	updatePoints();
 	    	bgUpdated = true;
 		}
 		
@@ -340,14 +348,14 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	
 	private void updateNext()
 	{
-		BufferedImage image = images.getNextBrickBackground();
+		BufferedImage image = images.getInfoBackground();
 		
 		int xStart = gameAreaXStart + gameAreaWidth + 30;
 		
 		g.drawImage(image, xStart, gameAreaYStart, 
 				image.getWidth(), image.getHeight(), this);
 		
-		g.setFont(font);
+		g.setFont(textFont);
 		g.setColor(fontColor);
 		
 		g.drawString("Next:", xStart + 10, gameAreaYStart + 30);
@@ -360,5 +368,50 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 	}
 	
 	
+	private void updateLevel()
+	{
+		BufferedImage image = images.getInfoBackground();
+		
+		int xStart = gameAreaXStart + gameAreaWidth + 30;
+		int yStart = gameAreaYStart + 400;
+		
+		g.drawImage(image, xStart, yStart, 
+				image.getWidth(), image.getHeight(), this);
+		
+		g.setFont(textFont);
+		g.setColor(fontColor);
+		
+		g.drawString("Level:", xStart + 10, yStart + 30);
+		
+		g.setFont(numberFont);
+		g.drawString(Integer.toString(stats.getLevel()), xStart + 80, yStart + 120);
+		
+	}
+	
+	private void updatePoints()
+	{
+		BufferedImage image = images.getInfoBackground();
+		String points = Integer.toString(stats.getPoints());
+		
+		int xStart = gameAreaXStart + gameAreaWidth + 30;
+		int yStart = gameAreaYStart + 200;
+		int fontStartX = xStart + 120;
+		
+		fontStartX -= points.length()*(20);
+		
+		
+		
+		g.drawImage(image, xStart, yStart, 
+				image.getWidth(), image.getHeight(), this);
+		
+		g.setFont(textFont);
+		g.setColor(fontColor);
+		
+		g.drawString("Points:", xStart + 10, yStart + 30);
+		
+		g.setFont(pointsFont);
+		g.drawString(points, fontStartX, yStart + 120);
+		
+	}
 	
 }

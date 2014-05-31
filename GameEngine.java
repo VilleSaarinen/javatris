@@ -31,7 +31,10 @@ public class GameEngine implements GameEngineUserAction
 		
 		images = new ImageHandler(brickSize);
 		
-		graphicsEngine = new GraphicsEngine(ui, width, height, gameAreaWidth, gameAreaHeight, gameAreaXStart, gameAreaYStart, images);			
+		stats = new Statistics();
+		
+		graphicsEngine = new GraphicsEngine(ui, width, height, gameAreaWidth, gameAreaHeight, gameAreaXStart, 
+							 gameAreaYStart, images, stats);			
 	}
 	
 	public void startNewGame()
@@ -63,7 +66,7 @@ public class GameEngine implements GameEngineUserAction
 		
 		updateTick = 50; 
 		
-		stats = new Statistics();
+		stats.initStats();
 		
 		brickGenerator = new BrickGenerator(gameAreaWidth, gameAreaHeight, rows, columns, gameAreaXStart, gameAreaYStart, 
 											brickSize, stats, images);

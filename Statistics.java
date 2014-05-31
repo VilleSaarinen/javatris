@@ -7,8 +7,13 @@ public class Statistics
 	
 	public Statistics()
 	{
+		initStats();
+	}
+	
+	public void initStats()
+	{
 		level = 1;
-		points = 0;
+		points = 1;
 	}
 	
 	public int getLevel()

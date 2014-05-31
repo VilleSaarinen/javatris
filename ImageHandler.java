@@ -11,7 +11,7 @@ public class ImageHandler
 	public final int infoBackgroundHeight = 170;
 	
 	private BufferedImage[] standardBricks;
-	private BufferedImage nextBrickBackground;
+	private BufferedImage infoBackground;
 	private Color infoBackgroundColor;
 	
 	public ImageHandler(int size)
@@ -53,8 +53,8 @@ public class ImageHandler
 		
 		infoBackgroundColor = new Color(50, 50, 50);
 		
-		nextBrickBackground = new BufferedImage(infoBackgroundWidth, infoBackgroundHeight, BufferedImage.TYPE_INT_RGB);
-		g = nextBrickBackground.getGraphics();
+		infoBackground = new BufferedImage(infoBackgroundWidth, infoBackgroundHeight, BufferedImage.TYPE_INT_RGB);
+		g = infoBackground.getGraphics();
 		g.setColor(infoBackgroundColor);
 		g.fillRect(0, 0, infoBackgroundWidth, infoBackgroundHeight);
 	}
@@ -66,9 +66,9 @@ public class ImageHandler
 	}
 	
 	
-	public BufferedImage getNextBrickBackground()
+	public BufferedImage getInfoBackground()
 	{
-		return nextBrickBackground;
+		return infoBackground;
 	}
 	
 	
