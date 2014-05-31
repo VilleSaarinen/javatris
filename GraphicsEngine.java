@@ -182,7 +182,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 				for(Brick brick : row)
 				{
 					if(brick != null)
-					{
+					{System.out.println("update");g.setColor(brick.getColor());
 						g.fillRect(brick.getX()+1, brick.getY()+1, brick.getSize()-2, brick.getSize()-2);
 					}
 				}			
@@ -206,6 +206,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 		{	
 			if(tempNext != null)
 				next = tempNext;
+			
+			g.setColor(next[0].getColor());
 			
 			for(Brick brick : next)
 			{

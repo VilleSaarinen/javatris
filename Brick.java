@@ -24,7 +24,6 @@ public abstract class Brick
 	
 	
 	public abstract boolean rotate(boolean clockWise);
-	public abstract Brick copyBrick();
 
 	
 	public Brick(int brickX, int brickY, int brickSize, int brickIndex, Color brickColor)
@@ -36,21 +35,6 @@ public abstract class Brick
 		color = brickColor;
 		
 	}
-	
-	protected Brick(Brick brick)
-	{
-			this.x = brick.x;
-			this.y = brick.y;
-			this.size = brick.size;
-			this.index = brick.index;
-			this.color = new Color(brick.color.getRed(), brick.color.getGreen(), brick.color.getBlue());
-			this.type = brick.type;
-			this.previousX = brick.previousX;
-			this.previousY = brick.previousY;
-			this.row = brick.row;
-			this.column = brick.column;			
-	}
-	
 	
 	
 	//this is dirty, but the number of bricks in a block must be known before an instance is created
@@ -106,7 +90,12 @@ public abstract class Brick
     
 	public void dropBrick(int drop)
 	{
-		
+	    previousY = y;
+	    previousX = x;
+	    previousColumn = column;
+	    previousRow = row;
+	    y += size*drop;
+	    row += drop;
 	}
 	
     public void moveLeft(int move)

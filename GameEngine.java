@@ -52,12 +52,11 @@ public class GameEngine
 		
 		updateTick = 50; 
 		
+		stats = new Statistics();
 		
-		brickGenerator = new BrickGenerator(width/5*3, height/10*9, rows, columns);
+		brickGenerator = new BrickGenerator(width/5*3, height/10*9, rows, columns, stats);
 		
 		graphicsEngine.addBrickGenerator(brickGenerator);
-		
-		stats = new Statistics();
 		
 		brickGenerator.updateBricks(true);
 		

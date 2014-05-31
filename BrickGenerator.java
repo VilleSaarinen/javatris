@@ -27,8 +27,9 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	private boolean currentChanged;
 	private boolean nextChanged;
 	private boolean arrayChanged;
+	private Statistics stats;
 	
-	public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns)
+	public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns, Statistics stats)
 	{
 		this.gameAreaWidth = gameAreaWidth;
 		this.gameAreaHeight = gameAreaHeight;
@@ -49,6 +50,8 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 		currentChanged = true;
 		nextChanged = true;
 		arrayChanged = true;
+		
+		this.stats = stats;
 		
 	}
 	
@@ -113,7 +116,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	            {
 	                if(currentBlock[i] != null)
 	                {
-	                    bricks[currentBlock[i].getRowIndex()-1][currentBlock[i].getColumnIndex()-1] = currentBlock[i].copyBrick();
+	                    bricks[currentBlock[i].getRowIndex()-1][currentBlock[i].getColumnIndex()-1] = currentBlock[i];
 	                }
 	             }
 	            
@@ -133,14 +136,70 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 			
 			
 		}
+		
+		lock.release();
+		
+		dropCurrent(1);
+		
+	}
 
-		//dropCurrent here
+	
+	private void dropCurrent(int drop)
+	{
+		
+		if(!currentCreatedAndMovable)
+			return;
+		
+		try 
+		{
+			lock.acquire();
+		} 
+		catch (InterruptedException e)
+		{
+			return;
+		}
+		
+		for(int h = 0; h < drop; h++)
+		{
+		
+			for(int i = 0; i < currentBlock.length; i++)
+			{
+				if(!isAbleToMove(currentBlock[i], currentBlock[i].getRowIndex()+1, currentBlock[i].getColumnIndex()))
+				{
+					stats.dropBrick(h);
+					currentCreatedAndMovable = false;
+					lock.release();
+					return;
+				}
 
+			}
+			
+			for(int i = 0; i < currentBlock.length; i++)
+			{
+				currentBlock[i].dropBrick(1);
+			}
+			
+			currentChanged = true;
+			
+		}
 		
 		lock.release();
 		
 	}
+	
+	
+	private boolean isAbleToMove(Brick brick, int rowToMove, int columnToMove)
+	{
+		
+	    if(rowToMove < 0 || columnToMove < 0 || rowToMove >= rows || columnToMove >= columns)
+	        return false;
 
+	    if(bricks[rowToMove][columnToMove] == null)
+	         return true;
+	    
+	    return false;		
+	}
+	
 
 	public int getRowCount()
 	{

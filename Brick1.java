@@ -46,8 +46,8 @@ public class Brick1 extends Brick
 	    previousX = x;
 	    previousY = y;  //TODO: are these really needed?
 	
-
 	}
+	
 
 	@Override
 	public boolean rotate(boolean clockWise)
@@ -152,13 +152,6 @@ public class Brick1 extends Brick
 	    }
 	    
 		return false;  //TODO: is the return value needed?
-	}
-
-	@Override
-	public Brick copyBrick()
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

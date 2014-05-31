@@ -21,6 +21,17 @@ public class Statistics
 		return points;
 	}
 	
+	public void levelUp()
+	{
+		level++;
+	}
+	
+	
+	public void dropBrick(int drop)
+	{
+		//TODO: add points based on the level
+		
+	}
 	
 	
 	
