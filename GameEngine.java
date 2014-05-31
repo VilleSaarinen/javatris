@@ -153,6 +153,12 @@ public class GameEngine implements GameEngineUserAction
 		
 	}
 
+	
+	public void rotate(boolean clockWise)
+	{
+		brickGenerator.rotate(clockWise);
+	}
+	
 
 	public void dropCurrent(int drop) 
 	{

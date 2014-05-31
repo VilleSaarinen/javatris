@@ -12,11 +12,14 @@ public class UserInput implements MouseListener, KeyListener,
 		MouseMotionListener, MouseWheelListener 
 {
 
+	private boolean ctrlPressed;
+	
 	private GameEngineUserAction gameEngine;
 	
 	public UserInput(GameEngineUserAction gameEngine)
 	{
 		this.gameEngine = gameEngine;
+		ctrlPressed = false;
 	}
 	
 	
@@ -83,21 +86,29 @@ public class UserInput implements MouseListener, KeyListener,
 		switch(e.getKeyCode())
 		{
 		case KeyEvent.VK_CONTROL:
-			System.out.println("ctrl");
+			ctrlPressed = true;
 			break;
 		case KeyEvent.VK_RIGHT:
-			gameEngine.moveSideways(1);
+			if(ctrlPressed)
+				gameEngine.moveSideways(4);
+			else
+				gameEngine.moveSideways(1);
 			break;
 		case KeyEvent.VK_LEFT:
-			gameEngine.moveSideways(-1);
+			if(ctrlPressed)
+				gameEngine.moveSideways(-4);
+			else
+				gameEngine.moveSideways(-1);
 			break;
 		case KeyEvent.VK_UP:
-			System.out.println("up");
+			gameEngine.rotate(true);
 			break;
 		case KeyEvent.VK_DOWN:
-			
-			break;
-		
+			if(ctrlPressed)
+				gameEngine.dropCurrent(50);
+			else
+				gameEngine.dropCurrent(1);
+			break;		
 		}
 		
 		
@@ -106,7 +117,8 @@ public class UserInput implements MouseListener, KeyListener,
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
-		// TODO Auto-generated method stub
+		if(e.getKeyCode() == KeyEvent.VK_CONTROL)
+			ctrlPressed = false;
 		
 	}
 

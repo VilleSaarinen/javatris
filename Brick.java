@@ -15,7 +15,9 @@ public abstract class Brick
 	protected int column;
 	protected int previousRow;
 	protected int previousColumn;
-	protected Stack<Point> previousPoints;
+	protected Stack<Point> previousPoints;   //this is for the graphics module to hide previous positions on the screen
+	protected int previousX;
+	protected int previousY;
 	protected BufferedImage image;
 	protected BrickType type;
 	protected int position;    //there are 4 possible positions for each brick while rotated
@@ -23,7 +25,7 @@ public abstract class Brick
 	protected static int[] brickCount = {4};    //number of bricks in each different set of bricks
 	
 	
-	public abstract boolean rotate(boolean clockWise);
+	public abstract void rotate(boolean clockWise);
 
 	
 	public Brick(int brickSize, int brickIndex, BufferedImage brickImage)
@@ -31,6 +33,9 @@ public abstract class Brick
 		size = brickSize;
 		index = brickIndex;
 		image = brickImage;	
+		
+		previousX = 0;
+		previousY = 0;
 		
 		previousPoints = new Stack<Point>();
 	}
@@ -113,5 +118,14 @@ public abstract class Brick
 	    x += size*move;
 	    column += move;	
     }
+    
+	public void unrotate()
+	{    
+		x = previousX;
+		y = previousY;
+		column = previousColumn;
+		row = previousRow;
+		position--;		
+	}
 	
 }

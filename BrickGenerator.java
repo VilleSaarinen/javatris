@@ -247,6 +247,44 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 	}
 	
 	
+	public void rotate(boolean clockWise)
+	{
+		
+		if(!currentCreatedAndMovable)
+			return;
+		
+		try 
+		{
+			lock.acquire();
+		} 
+		catch (InterruptedException e)
+		{
+			return;
+		}
+		
+	    for(int i = 0; i < currentBlock.length; i++)
+	    	currentBlock[i].rotate(clockWise);
+	    
+	    for(int i = 0; i < currentBlock.length; i++)
+	    {
+	    	if(!isAbleToMove(currentBlock[i], currentBlock[i].getRowIndex(), currentBlock[i].getColumnIndex()))
+	    	{
+	    		for(int h = 0; h < currentBlock.length; h++)
+	    		{
+	    			currentBlock[h].unrotate();
+	    		}
+	    		lock.release();
+	    		return;
+	    	}
+	    }
+	    
+	    currentChanged = true;
+	    lock.release();
+
+	}
+	
+	
+	
 	private boolean isAbleToMove(Brick brick, int rowToMove, int columnToMove)
 	{
 		

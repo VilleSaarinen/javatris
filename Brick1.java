@@ -48,14 +48,17 @@ public class Brick1 extends Brick
 	
 
 	@Override
-	public boolean rotate(boolean clockWise)
+	public void rotate(boolean clockWise)
 	{
 		position++;
 	    position %= 4;
 
-	    previousPoints.push(new Point(x,y));
+	    previousX = x;
+	    previousY = y;
+	    
 	    previousColumn = column;
 	    previousRow = row;
+	    previousPoints.push(new Point(x,y));
 
 	    switch(index)
 	    {
@@ -148,7 +151,6 @@ public class Brick1 extends Brick
 		    break;
 	    }
 	    
-		return false;  //TODO: is the return value needed?
 	}
 
 }
