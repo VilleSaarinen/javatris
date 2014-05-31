@@ -2,10 +2,10 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 /*
- * 		_ _
+ * 	    _ _
  * 	   |_|_|
  * 	   |_|_|	
- * 
+ * 		
  */
 
 
@@ -44,7 +44,7 @@ public class Brick5 extends Brick {
 		}
 
 		this.x = gameAreaStartX + this.column*brickSize;
-        this.y = gameAreaStartY + this.row*brickSize;  
+		this.y = gameAreaStartY + this.row*brickSize;  
 
 	}
 
