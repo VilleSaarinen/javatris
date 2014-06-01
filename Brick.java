@@ -24,10 +24,10 @@ public abstract class Brick
     protected BrickType type;
     protected int position;    //there are 4 possible positions for each brick while rotated
     
-    protected static int[] brickCount = {4, 4, 4, 4, 4, 2, 4, 5, 1, 5};    //number of bricks in each different set of bricks from 1 to 10
+    protected static int[] brickCount = {4, 4, 4, 4, 4, 2, 4, 5, 1, 5, 4};    //number of bricks in each different set of bricks from 1 to 11
     
     
-    public abstract void rotate(boolean clockWise);
+    public abstract void rotate(boolean clockWise);   //TODO: default is currently anti-clockwise, is the parameter needed?
 
     
     public Brick(int brickSize, int brickIndex, BufferedImage brickImage)
