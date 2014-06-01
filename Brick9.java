@@ -2,6 +2,8 @@ import java.awt.image.BufferedImage;
 
 
 /*
+ *  This is a special type of brick that can
+ *  be used to destroy other bricks by dropping it.
  *       _
  *      |_|
  * 
