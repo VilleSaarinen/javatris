@@ -1,19 +1,17 @@
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-
 /*
- *            _
- *        _ _|_|
- *       |_|_|_|
+ *         _ _  
+ *        |_|_|
+ *      |_|_|
  * 
  */
 
-
-public class Brick3 extends Brick
+public class Brick7 extends Brick
 {
 
-    public Brick3(int gameAreaStartX, int gameAreaStartY, int brickSize, int brickIndex, BufferedImage brickImage)
+    public Brick7(int gameAreaStartX, int gameAreaStartY, int brickSize, int brickIndex, BufferedImage brickImage)
     {
         super(brickSize, brickIndex, brickImage);
         
@@ -32,10 +30,10 @@ public class Brick3 extends Brick
             this.relativeColumn = 1;
             break;
         case 3:     
-            row= 1;
-            column = 9;
-            this.relativeRow = 1;
-            this.relativeColumn = 2;
+            row = 0;
+            column = 8;
+            this.relativeRow = 0;
+            this.relativeColumn = 1;
             break;
         case 4:
             row = 0;
@@ -47,10 +45,10 @@ public class Brick3 extends Brick
 
         this.x = gameAreaStartX + this.column*brickSize;
         this.y = gameAreaStartY + this.row*brickSize;  
-      
     }
 
-    
+
+    @Override
     public void rotate(boolean clockWise)
     {
         position++;
@@ -69,84 +67,86 @@ public class Brick3 extends Brick
             switch(position)
             {
             case 0:
-                column -= 1;
-                row += 1;
-                x -= size;
-                y += size;
+                row += 2;
+                y += size*2;
                 break;
             case 1:
-                column += 1;
-                row += 1;
-                x += size;
-                y += size;
+                column += 2;
+                x += size*2;
                 break;
             case 2:
-                column += 1;
-                row -= 1;
-                x += size;
-                y -= size;
+                row -= 2;
+                y -= size*2;
                 break;
             case 3:
-                column -= 1;
-                row -= 1;
-                x -= size;
-                y -= size;
+                column -= 2;
+                x -= size*2;
                 break;    
             }
         
             break;
-        case 2:
-            break;
+
         
-        case 3:
+        case 2:
             switch(position)
             {
             case 0:
                 column += 1;
-                row -= 1;
+                row += 1;
                 x += size;
-                y -= size;
+                y += size;
                 break;
             case 1:
-                column -= 1;
+                column += 1;
                 row -= 1;
-                x -= size;
+                x += size;
                 y -= size;
                 break;
             case 2:
                 column -= 1;
-                row += 1;
+                row -= 1;
                 x -= size;
-                y += size;
+                y -= size;
                 break;
             case 3:
-                column += 1;
+                column -= 1;
                 row += 1;
-                x += size;
+                x -= size;
                 y += size;
                 break;
             }
         
             break;
-        
+            
+        case 3:
+            break;
+            
         case 4:
         switch(position)
         {
             case 0:
-                row -= 2;
-                y -= size*2;
+                column += 1;
+                row -= 1;
+                x += size;
+                y -= size;
                 break;
             case 1:
-                column -= 2;
-                x -= size*2;
+                column -= 1;
+                row -= 1;
+                x -= size;
+                y -= size;
                 break;
             case 2:
-                row += 2;
-                y += size*2;
+                column -= 1;
+                row += 1;
+                x -= size;
+                y += size;
                 break;
             case 3:
-                column += 2;
-                x += size*2;
+                column += 1;
+                row += 1;
+                x += size;
+                y += size;
                 break;
             }
         
