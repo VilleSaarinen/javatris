@@ -1,6 +1,16 @@
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+/*
+ * 
+ *      _
+ *    _|_|_
+ *   |_|_|_|
+ *     |_|
+ * 
+ * 
+ */
+
 
 
 public class Brick8 extends Brick
@@ -47,12 +57,9 @@ public class Brick8 extends Brick
         this.x = gameAreaStartX + this.column*brickSize;
         this.y = gameAreaStartY + this.row*brickSize;  
         
-        
-        
     }
 
 
-    @Override
     public void rotate(boolean clockWise)
     {
         position++;
