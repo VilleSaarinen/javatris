@@ -51,15 +51,7 @@ public class Brick7 extends Brick
     @Override
     public void rotate(boolean clockWise)
     {
-        position++;
-        position %= 4;
-
-        previousX = x;
-        previousY = y;
-        
-        previousColumn = column;
-        previousRow = row;
-        previousPoints.push(new Point(x,y));
+        setPreviousPosition();
         
         switch(index)
         {

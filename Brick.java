@@ -24,11 +24,11 @@ public abstract class Brick
     protected BrickType type;
     protected int position;    //there are 4 possible positions for each brick while rotated
     
-    protected static int[] brickCount = {4, 4, 4, 4, 4, 2, 4, 5, 1, 5, 4};    //number of bricks in each different set of bricks from 1 to 11
+    protected static int[] brickCount = {4, 4, 4, 4, 4, 2, 4, 5, 1, 5, 4, 3};    //number of bricks in each different set of bricks from 1 to 12
     
     
     public abstract void rotate(boolean clockWise);   //TODO: default is currently anti-clockwise, is the parameter needed?
-
+    //TODO: when brick is drawn, all the previous points from the stack should be cleared
     
     public Brick(int brickSize, int brickIndex, BufferedImage brickImage)
     {
@@ -51,6 +51,20 @@ public abstract class Brick
         return brickCount[type];
     }
     
+    
+    protected void setPreviousPosition()
+    {
+        position++;
+        position %= 4;
+        previousX = x;
+        previousY = y;
+        
+        previousColumn = column;
+        previousRow = row;
+        previousPoints.push(new Point(x,y));
+    }
+    
+      
     public int getX()
     {
         return x;

@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 public class BrickGenerator implements BrickGeneratorGraphicsInterface
 {
 
-    public static final int DIFFERENT_BRICKS_COUNT = 11;
+    public static final int DIFFERENT_BRICKS_COUNT = 12;
     public static final int maxBricksInBlocks = 5;
     
     private int gameAreaWidth;   
@@ -170,6 +170,14 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             for(int i = 0; i < Brick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick11(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
+            }
+            break;
+            
+        case 11: 
+            block = new Brick[Brick.getBrickCount(blockType)];
+            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            {
+                block[i] = new Brick12(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
