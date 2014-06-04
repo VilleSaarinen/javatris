@@ -30,9 +30,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private int red1, green1, blue1, red2, green2, blue2;
     private boolean r1, r2, g1, g2, b1, b2;
     private Graphics2D g;
-    private Graphics2D bgGraphics;
+    private BufferedImage gameAreaBackground;
+    private Graphics2D gameAreaGraphics;
     private BufferedImage buffer;
-    BufferedImage bgBuffer;
     private long updateTick;
     private long previousTick;
     private long nextTick;
@@ -51,6 +51,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private Font pointsFont;
     private Color fontColor;
     private Statistics stats;
+
     
     
     private class CloseWindow extends WindowAdapter
@@ -95,9 +96,13 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         buffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D)buffer.getGraphics();
         
-        bgBuffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
-        
-        createBackground(); 
+        gameAreaBackground = new BufferedImage(gameAreaWidth + 2, gameAreaHeight, BufferedImage.TYPE_INT_RGB);
+        gameAreaGraphics = (Graphics2D)gameAreaBackground.getGraphics();
+        gameAreaGraphics.setColor(new Color(10,10,10));
+        gameAreaGraphics.drawRect(0, 0, gameAreaWidth, gameAreaHeight);
+        gameAreaGraphics.fillRect(0, 0, gameAreaWidth, gameAreaHeight);
+                
+        createGradientBackground(); 
         updateTick = 50;
         previousTick = System.currentTimeMillis();  //TODO: necessary?
         nextTick = System.currentTimeMillis();
@@ -123,7 +128,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     }
     
     
-    private void createBackground()
+    private void createGradientBackground()
     {
 
         if (red1 >220)
@@ -172,10 +177,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
                               
         bg = new GradientPaint(0, this.getHeight(), new Color(red1, green1, blue1), this.getWidth(), 0, new Color(red2, green2, blue2));
         
-        bgGraphics = (Graphics2D)bgBuffer.getGraphics();
-        bgGraphics.setPaint(bg);
-        bgGraphics.fillRect(gameAreaXStart, gameAreaYStart,  gameAreaWidth, gameAreaHeight);
-        
     }
     
     
@@ -190,10 +191,10 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         if(((bgCounter++)%8) == 0)
         {    
-            createBackground(); 
+            createGradientBackground(); 
             g.setPaint(bg);        
             g.fillRect(0, 0,  windowWidth, windowHeight);  //TODO: paint only small area if the background is not changed
-            drawGameAreaLimits(g);
+            g.drawImage(gameAreaBackground, gameAreaXStart - 2, gameAreaYStart, this);
             updateLevel();
             updatePoints();
             bgUpdated = true;
@@ -306,17 +307,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         brickGenerator.registerGraphicsObject(this, lock);
     }
-    
-    
-    private void drawGameAreaLimits(Graphics g)
-    {
-        g.setColor(lineColor);
-        g.drawLine(gameAreaXStart-2, gameAreaYStart, gameAreaXStart + gameAreaWidth, gameAreaYStart);
-        g.drawLine(gameAreaXStart-2, gameAreaYStart, gameAreaXStart-2, gameAreaYStart + gameAreaHeight);
-        g.drawLine(gameAreaXStart + gameAreaWidth, gameAreaYStart, gameAreaXStart + gameAreaWidth, gameAreaYStart + gameAreaHeight);
-        g.drawLine(gameAreaXStart-2, gameAreaYStart + gameAreaHeight, gameAreaXStart + gameAreaWidth, gameAreaYStart + gameAreaHeight);
-    }
-    
 
     public void animateRowDeletion(int row)
     {
@@ -333,8 +323,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
             {
                 while((previousBrickCoordinates = current[i].getPreviousPoint()) != null)
                 {
-                    g.drawImage(bgBuffer.getSubimage(previousBrickCoordinates.x, previousBrickCoordinates.y, 
-                            current[i].getSize(), current[i].getSize()), previousBrickCoordinates.x, previousBrickCoordinates.y, this);
+                    g.drawImage(gameAreaBackground.getSubimage(previousBrickCoordinates.x - gameAreaXStart,
+                            previousBrickCoordinates.y - gameAreaYStart, current[i].getSize(), current[i].getSize()),
+                            previousBrickCoordinates.x, previousBrickCoordinates.y, this);
                 }
             }
         }
