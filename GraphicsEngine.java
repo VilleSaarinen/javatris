@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.Semaphore;
 import java.awt.Point;
 import java.awt.Font;
+import java.util.Random;
 
 
 public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterface
@@ -18,7 +19,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
      * TODO: find out what the hell is this
      */
     private static final long serialVersionUID = 1L;  
-    
+    //TODO: order variables
     private Frame frame;
     private int windowWidth;
     private int windowHeight;
@@ -43,7 +44,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private Brick[] current;
     private Brick[] next;
     private int bgCounter;
-    private Color lineColor;
     private Point previousBrickCoordinates;
     private ImageHandler images;
     private Font textFont;
@@ -51,6 +51,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private Font pointsFont;
     private Color fontColor;
     private Statistics stats;
+    private Random gradientRandom;
 
     
     
@@ -83,13 +84,15 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         //TODO: add other listeners as well
         this.addKeyListener(ui);
         
+        
+        gradientRandom = new Random();
         //initial values for the gradient background
-        red1 = 166;
-        green1 = 254;
-        blue1 = 200;
-        red2 =  254;
-        green2 = 254;
-        blue2 = 254;
+        red1 = Math.abs(gradientRandom.nextInt()) % 256;
+        green1 = Math.abs(gradientRandom.nextInt()) % 256;
+        blue1 = Math.abs(gradientRandom.nextInt()) % 256;
+        red2 =  Math.abs(gradientRandom.nextInt()) % 256;
+        green2 = Math.abs(gradientRandom.nextInt()) % 256;
+        blue2 = Math.abs(gradientRandom.nextInt()) % 256;
         
         r1 = r2 = g1 = g2 = b1 = b2 = true;
         
@@ -101,8 +104,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         gameAreaGraphics.setColor(new Color(10,10,10));
         gameAreaGraphics.drawRect(0, 0, gameAreaWidth, gameAreaHeight);
         gameAreaGraphics.fillRect(0, 0, gameAreaWidth, gameAreaHeight);
-                
+            
         createGradientBackground(); 
+        
         updateTick = 50;
         previousTick = System.currentTimeMillis();  //TODO: necessary?
         nextTick = System.currentTimeMillis();
@@ -113,8 +117,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         bgCounter = 0;
         
         previousBrickCoordinates = new Point();
-        
-        lineColor = new Color(10, 10, 10);
         
         this.images = images;
         
@@ -130,50 +132,95 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     
     private void createGradientBackground()
     {
+        
+        int rand = Math.abs(gradientRandom.nextInt()) % 30;
 
-        if (red1 >220)
+        if(red1 > 254)
             r1 = false;
-        if (red1< 130)
+        if(red1 < 10)
             r1 = true;
-        if (red2 >254)
+        if(red2 > 254)
             r2 = false;
-        if (red2< 222)
+        if(red2 < 10)
             r2 = true;
-        if (green1 >254)
+        if(green1 > 254)
             g1 = false;
-        if (green1< 190)
+        if(green1 < 10)
             g1 = true;
-        if (green2 >254)
+        if(green2 > 254)
             g2 = false;
-        if (green2< 90)
+        if(green2 < 10)
             g2 = true;  
-        if (blue1 >210)
+        if(blue1 > 254)
             b1 = false;
-        if (blue1< 170)
+        if(blue1 < 10)
             b1 = true;
-        if (blue2 >254)
+        if(blue2 > 254)
             b2 = false;
-        if (blue2< 120)
+        if(blue2 < 10)
             b2 = true; 
         
-  
-        if (r1) red1++;            
-        else red1 = red1-1;
+        //Randomly change some variables
         
-        if (r2) red2++;            
-        else red2 = red2-1;
+        switch(rand)
+        {
+            case 0:
+                if(red1 < 200 && red1 > 50)
+                    r1 = !r1;
+                break;
+            case 1:
+                if(red2 < 200 && red2 > 50)
+                    r2 = !r2;
+                break;
+            case 2:
+                if(green1 < 200 && green1 > 50)
+                    g1 = !g1;
+                break;
+            case 3:
+                if(green2 < 200 && green2 > 50)
+                    g2 = !g2;
+                break;
+            case 4:
+                if(blue1 < 200 && blue1 > 50)
+                    b1 = !b1;
+                break;
+            case 5:
+                if(blue2 < 200 && blue2 > 50)
+                    b2 = !b2;
+                break;
+            default:
+                break;
+        }
+
+        if(r1)
+            red1++;            
+        else
+            red1--;
         
-        if (g1) green1++;            
-        else green1 = green1-1;
+        if(r2)
+            red2++;            
+        else
+            red2--;
         
-        if (g2)green2++;
-        else green2 = green2-1;
+        if(g1)
+            green1++;            
+        else 
+            green1--;
         
-        if (b1)blue1++;            
-        else blue1 = blue1-1;
+        if(g2)
+            green2++;
+        else 
+            green2--;
         
-        if (b2) blue2++; 
-        else blue2 = blue2-1;
+        if (b1)
+            blue1++;            
+        else 
+            blue1--;
+        
+        if(b2)
+            blue2++; 
+        else
+            blue2--;
                               
         bg = new GradientPaint(0, this.getHeight(), new Color(red1, green1, blue1), this.getWidth(), 0, new Color(red2, green2, blue2));
         
@@ -189,7 +236,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         boolean bgUpdated = false;
         
         
-        if(((bgCounter++)%8) == 0)
+        if(((bgCounter++)%8) == 0)  //TODO: background change rate should be configurable?
         {    
             createGradientBackground(); 
             g.setPaint(bg);        
