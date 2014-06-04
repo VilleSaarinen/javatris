@@ -1,17 +1,18 @@
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 /*
- *         _ _
- *        |_|_|
+ * 
+ *         _ _ _
+ *        |_|_|_|
  *        |_|_|    
- *         
+ * 
  */
 
 
-public class Brick5 extends Brick {
+public class Brick13 extends Brick
+{
 
-    public Brick5(int gameAreaStartX, int gameAreaStartY, int brickSize, int brickIndex, BufferedImage brickImage)
+    public Brick13(int gameAreaStartX, int gameAreaStartY, int brickSize, int brickIndex, BufferedImage brickImage)
     {
         super(brickSize, brickIndex, brickImage);
         
@@ -40,6 +41,12 @@ public class Brick5 extends Brick {
             column = 7;
             this.relativeRow = 1;
             this.relativeColumn = 1;
+            break;
+        case 5:
+            row = 0;
+            column = 8;
+            this.relativeRow = 0;
+            this.relativeColumn = 2;
             break;
         }
 
@@ -144,10 +151,41 @@ public class Brick5 extends Brick {
                     row += 1;
                     y += size;
                     break;
-                }
-            
-                break;
             }
+        
+            break;
+            
+        case 5:
+            switch(position)
+            {
+                case 0:
+                    row -= 2;
+                    column += 1;
+                    y -= size*2;
+                    x += size;
+                    break;
+                case 1:
+                    row -= 1;
+                    column -= 2;
+                    y -= size;
+                    x -= size*2;
+                    break;
+                case 2:
+                    column -= 1;
+                    row += 2;
+                    x -= size;
+                    y += size*2;
+                    break;
+                case 3:
+                    row += 1;
+                    column += 2;
+                    y += size;
+                    x += size*2;
+                    break;
+            }
+            
+            break;
+        }
 
     }
 
