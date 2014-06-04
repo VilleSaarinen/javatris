@@ -2,7 +2,7 @@
 public class GameEngine implements GameEngineUserAction
 {
     
-    private final int width = 1000;
+    private final int width = 900;
     private final int height = 1000;
     private final int rows = 30;
     private final int columns = 20;
@@ -24,7 +24,7 @@ public class GameEngine implements GameEngineUserAction
 
         ui = new UserInput(this);
         
-        gameAreaWidth = width/5*3;
+        gameAreaWidth = width/9*6;
         gameAreaHeight = height/10*9;
         
         brickSize = gameAreaHeight/rows;
