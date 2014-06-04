@@ -3,8 +3,8 @@ public class GameEngine implements GameEngineUserAction
 {
     
     private final int width = 900;
-    private final int height = 1000;
-    private final int rows = 30;
+    private final int height = 900;
+    private final int rows = 27;
     private final int columns = 20;
     private int gameAreaWidth;
     private int gameAreaHeight;
