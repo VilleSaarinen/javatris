@@ -10,7 +10,9 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.Semaphore;
 import java.awt.Point;
 import java.awt.Font;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Vector;
 
 
 public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterface
@@ -264,6 +266,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         if(tempGameArea != null || bgUpdated)
         {
+            g.drawImage(gameAreaBackground, gameAreaXStart - 2, gameAreaYStart, this);
+            
             if(tempGameArea != null)
                 bricks = tempGameArea;
             
@@ -357,10 +361,26 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
 
     public void animateRowDeletion(int row)
     {
-        // TODO: add row deletion animation
+        
         
     }
 
+    public void animateRowDeletion(Vector<Integer> rowsToDelete)
+    {
+        Graphics graphics = this.getGraphics();
+        int i;
+        
+        for(Iterator<Integer> it = rowsToDelete.iterator(); it.hasNext();)
+        {
+            i = it.next();
+            g.drawImage(gameAreaBackground.getSubimage(0, i*next[0].getSize(), gameAreaWidth, next[0].getSize()), 
+                    gameAreaXStart, gameAreaYStart+i*next[0].getSize(), this);
+            
+        }
+        
+        graphics.drawImage(buffer, 0, 0, windowWidth, windowHeight, this);
+        graphics.dispose();
+    }
     
     private void updateCurrent(boolean bgUpdated)
     {
@@ -409,6 +429,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     
     private void updateLevel()
     {
+        //TODO: this can be also called if points or level is updated
         BufferedImage image = images.getInfoBackground();
         
         int xStart = gameAreaXStart + gameAreaWidth + 30;
@@ -429,6 +450,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     
     private void updatePoints()
     {
+        //TODO: this can be also called if points or level is updated
         BufferedImage image = images.getInfoBackground();
         String points = Integer.toString(stats.getPoints());
         

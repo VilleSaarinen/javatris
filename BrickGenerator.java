@@ -234,7 +234,10 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                  }
                 
                 if(checkRows())
+                {
                     deleteRows();
+                }
+                
                 
                 arrayChanged = true;
                 currentBlock = nextBlock;
@@ -259,6 +262,23 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     }
 
     
+    private void dropRowsAboveThisRow(int row)
+    {
+        for(int i = row; i >= 0; i--)
+        {
+            for(int h = 0; h < columns; h++)
+            {
+                if(bricks[i][h] != null)
+                {
+                    bricks[i][h].dropBrick(1);
+                    bricks[i+1][h] = bricks[i][h];
+                    bricks[i][h] = null;
+                }
+            }
+        }
+        
+    }
+
     public void dropCurrent(int drop)
     {
         
@@ -336,15 +356,20 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     public void deleteRows()
     {
         
+        
+        
         for(Iterator<Integer> it = rowsToDelete.iterator(); it.hasNext();)
         {
             int i = it.next();
+            
+            graphicsModule.animateRowDeletion(rowsToDelete);
             
             for(int h = 0; h < columns; h++)
             {
                 bricks[i][h] = null;
             }
             
+            dropRowsAboveThisRow(i);
             it.remove();
         }
         
