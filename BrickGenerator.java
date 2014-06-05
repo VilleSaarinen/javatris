@@ -1,6 +1,8 @@
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
+import java.util.Vector;
 
 public class BrickGenerator implements BrickGeneratorGraphicsInterface
 {
@@ -29,6 +31,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     private boolean currentChanged;
     private boolean nextChanged;
     private boolean arrayChanged;
+    private Vector<Integer> rowsToDelete;
     private Statistics stats;
     
     public BrickGenerator(int gameAreaWidth, int gameAreaHeight, int rows, int columns, int gameAreaStartX, 
@@ -53,6 +56,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         currentChanged = true;
         nextChanged = true;
         arrayChanged = true;
+        rowsToDelete = new Vector<Integer>();
         
         this.stats = stats;
         
@@ -229,6 +233,9 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                     }
                  }
                 
+                if(checkRows())
+                    deleteRows();
+                
                 arrayChanged = true;
                 currentBlock = nextBlock;
                 
@@ -241,8 +248,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             nextBlock = createBrick();
             
             currentChanged = true;
-            nextChanged = true;
-            
+            nextChanged = true;       
             
         }
         
@@ -292,6 +298,55 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         }
         
         lock.release();
+        
+    }
+    
+    
+    private boolean checkRows()
+    {
+        
+        boolean deleteThisRow;
+        boolean retval = false;
+        
+        for(int i = 0; i < rows; i++)
+        {
+            deleteThisRow = false;
+            
+            for(int h = 0; h < columns; h++)
+            {
+                if(bricks[i][h] == null)
+                    break;
+                
+                if(h == columns-1)
+                    deleteThisRow = true;   
+            }
+            
+            if(deleteThisRow)
+            {
+                retval = true;
+                rowsToDelete.add(i);
+            }
+        }
+        
+        return retval;
+        
+    }
+    
+    
+    public void deleteRows()
+    {
+        
+        for(Iterator<Integer> it = rowsToDelete.iterator(); it.hasNext();)
+        {
+            int i = it.next();
+            
+            for(int h = 0; h < columns; h++)
+            {
+                bricks[i][h] = null;
+            }
+            
+            it.remove();
+        }
         
     }
     
