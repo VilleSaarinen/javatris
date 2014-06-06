@@ -1,8 +1,8 @@
 
-public class GameEngine implements GameEngineUserAction
+public class GameEngine implements GameEngineUserAction, GameEngineMenuInterface, Runnable
 {
     //TODO: config/definition file?
-    public static enum ACTION{NEW_GAME, OPTIONS, MANUAL, HIGH_SCORE, QUIT};
+    public static enum ACTION{NEW_GAME, OPTIONS, MANUAL, HIGH_SCORE, QUIT, NONE};
     
     
     private final int windowWidth = 900;
@@ -20,6 +20,8 @@ public class GameEngine implements GameEngineUserAction
     private Statistics stats;
     private ImageHandler images;
     private Menu menu;
+    private Thread gameLogicThread;
+    private boolean gameStarted;
 
     public GameEngine()
     {
@@ -36,13 +38,36 @@ public class GameEngine implements GameEngineUserAction
         stats = new Statistics();
         
         graphicsEngine = new GraphicsEngine(ui, windowWidth, windowHeight, gameAreaWidth, gameAreaHeight, gameAreaXStart, 
-                             gameAreaYStart, images, stats);            
+                             gameAreaYStart, images, stats);    
+        
+        gameStarted = false;
     }
     
     public void startNewGame()
     {
         menuScreen();
-        playTheGame();
+    }
+    
+    
+    public void menuStopped(ACTION action)
+    {    
+        graphicsEngine.stopMenu(ui);
+        
+        switch(action)
+        {
+            case NEW_GAME: 
+                playTheGame();
+                break;
+            case OPTIONS:
+                break;
+            case MANUAL:
+                break;
+            case HIGH_SCORE:
+                break;
+            case QUIT:
+                break;
+        }
+
     }
     
     
@@ -54,7 +79,7 @@ public class GameEngine implements GameEngineUserAction
     
     private void menuScreen()
     {
-        menu = Menu.createMenu(images, windowWidth, windowHeight);
+        menu = Menu.createMenu(images, windowWidth, windowHeight, this);
         ui.registerMenu(menu);
         graphicsEngine.startMenu(menu, ui);
     }
@@ -62,7 +87,14 @@ public class GameEngine implements GameEngineUserAction
     
     private void playTheGame() 
     {
-                
+        gameLogicThread = new Thread(this);
+        gameStarted = true;
+        gameLogicThread.start();
+        
+    }
+    
+    public void run()
+    {
         int updateTick;
         long startTime;
         long endTime;
@@ -79,9 +111,8 @@ public class GameEngine implements GameEngineUserAction
         graphicsEngine.startGame(brickGenerator);
         
         brickGenerator.updateBricks(true);
-            
 
-        for(counter = 0; true; counter++)
+       for(counter = 0; gameStarted; counter++)
         {
             startTime = System.currentTimeMillis();
             
@@ -163,6 +194,9 @@ public class GameEngine implements GameEngineUserAction
             }
             
         }
+       
+       graphicsEngine.gameOver();
+       menuScreen();
         
     }
 
