@@ -113,10 +113,13 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         previousTick = System.currentTimeMillis();  //TODO: necessary?
         nextTick = System.currentTimeMillis();
         
-        thread = new Thread(this);
+        thread = null;
         lock = new Semaphore(1);
         
         bgCounter = 0;
+        
+        thread = new Thread(this);
+        lock = new Semaphore(1);
         
         previousBrickCoordinates = new Point();
         
@@ -132,6 +135,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         gameStarted = false;
         menuScreen = false;
         
+        thread.start();
     }
     
     
@@ -240,7 +244,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         Brick[] tempNext;
         boolean bgUpdated = false;
         
-        
         if(((bgCounter++)%8) == 0)  //TODO: background change rate should be configurable?
         {    
             createGradientBackground(); 
@@ -333,6 +336,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     
     public void update(Graphics g)
     {  
+ 
         if(gameStarted)
             paintGameArea(g);
         
@@ -344,14 +348,10 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     {
         brickGenerator = gi;
         
-        if(lock == null)
-            lock = new Semaphore(1);
-        
         brickGenerator.registerGraphicsObject(this, lock);
-        
+
         gameStarted = true;
-        
-        thread.start();
+
     }
     
     
@@ -361,10 +361,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     }
     
     
-    public GameEngine.ACTION startMenu(Menu menu, UserInput ui)
+    public void startMenu(Menu menu, UserInput ui)
     {
-        
-        int interval = 50;
         
         this.menu = menu;
         
@@ -375,22 +373,14 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         this.addMouseListener(ui);
         this.addMouseMotionListener(ui);
-        
 
-        while(true)
-        {
-                
-            repaint();
-            
-            try
-            {
-                Thread.sleep(interval);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
+    }
+    
+    public void stopMenu(UserInput ui)
+    {
+        menuScreen = false;
+        this.removeMouseListener(ui);
+        this.removeMouseMotionListener(ui);
     }
     
     
@@ -401,12 +391,12 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     
     public void run() 
     {
-        
+
         long sleepTime;
         
         while(true)
         {
-        
+
             sleepTime = updateTick - (nextTick - previousTick);
 
             try 
@@ -417,13 +407,13 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
             {
                 e.printStackTrace();
             }
-            
+
             previousTick = System.currentTimeMillis();
             repaint();
-            nextTick = System.currentTimeMillis();
-            
+            nextTick = System.currentTimeMillis();      
         
         }
+        
         
     }
     
@@ -544,11 +534,5 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
     }
 
-
-    public void startMenu(Vector<MenuButton> buttons)
-    {
-        
-        
-    }
     
 }
