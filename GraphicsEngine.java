@@ -238,7 +238,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
             createGradientBackground(); 
             g.setPaint(bg);        
             g.fillRect(0, 0,  windowWidth, windowHeight);  //TODO: paint only small area if the background is not changed
-            g.drawImage(gameAreaBackground, gameAreaXStart - 2, gameAreaYStart, this);
+            g.drawImage(gameAreaBackground, gameAreaXStart - 1, gameAreaYStart, this);
             updateLevel();
             updatePoints();
             bgUpdated = true;
@@ -261,7 +261,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         if(tempGameArea != null || bgUpdated)
         {
-            g.drawImage(gameAreaBackground, gameAreaXStart - 2, gameAreaYStart, this);
+            g.drawImage(gameAreaBackground, gameAreaXStart - 1, gameAreaYStart, this);
             
             if(tempGameArea != null)
                 bricks = tempGameArea;
@@ -387,7 +387,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
                 {
                     g.drawImage(gameAreaBackground.getSubimage(previousBrickCoordinates.x - gameAreaXStart,
                             previousBrickCoordinates.y - gameAreaYStart, current[i].getSize(), current[i].getSize()),
-                            previousBrickCoordinates.x, previousBrickCoordinates.y, this);
+                            previousBrickCoordinates.x-1, previousBrickCoordinates.y, this);
                 }
             }
         }
