@@ -24,7 +24,7 @@ public class ImageHandler
     
     public ImageHandler(int size, int gameAreaWidth, int gameAreaHeight)
     {
-        Graphics g;
+
         
         this.gameAreaWidth = gameAreaWidth;
         this.gameAreaHeight = gameAreaHeight;
@@ -33,6 +33,18 @@ public class ImageHandler
         size = size-2;
         
         //TODO: handle also Windows-type paths
+        createBrickImages(size);
+        createGameAreaBackground();
+        createInfoImages();
+
+    }
+    
+    
+    private void createBrickImages(int size)
+    {
+        
+        Graphics g;      
+
         try
         {
             standardBricks[0] = ImageIO.read(new File("src/images/brick1.jpg"));
@@ -145,6 +157,11 @@ public class ImageHandler
             g.fillRect(0, 0, size, size);
         }
         
+    }
+    
+    
+    private void createGameAreaBackground()
+    {
         try
         {
             gameAreaBackground = ImageIO.read(new File("src/images/gamearea_bg.jpg"));
@@ -154,12 +171,17 @@ public class ImageHandler
             e.printStackTrace();
             System.err.println("Game area background image not found!\n");
             gameAreaBackground = new BufferedImage(gameAreaWidth + 2, gameAreaHeight, BufferedImage.TYPE_INT_RGB);
-            Graphics2D gameAreaGraphics = gameAreaGraphics = (Graphics2D)gameAreaBackground.getGraphics();
+            Graphics2D gameAreaGraphics = (Graphics2D)gameAreaBackground.getGraphics();
             gameAreaGraphics.setColor(new Color(10,10,10));
             gameAreaGraphics.drawRect(0, 0, gameAreaWidth, gameAreaHeight);
             gameAreaGraphics.fillRect(0, 0, gameAreaWidth, gameAreaHeight);
-        }
-        
+        }  
+    }
+    
+    
+    private void createInfoImages()
+    {
+        Graphics g;
         
         infoBackgroundColor = new Color(50, 50, 50);
         
@@ -167,6 +189,7 @@ public class ImageHandler
         g = infoBackground.getGraphics();
         g.setColor(infoBackgroundColor);
         g.fillRect(0, 0, infoBackgroundWidth, infoBackgroundHeight);
+        
     }
     
     

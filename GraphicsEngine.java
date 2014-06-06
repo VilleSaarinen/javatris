@@ -34,7 +34,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private boolean r1, r2, g1, g2, b1, b2;
     private Graphics2D g;
     private BufferedImage gameAreaBackground;
-    private Graphics2D gameAreaGraphics;
     private BufferedImage buffer;
     private long updateTick;
     private long previousTick;
