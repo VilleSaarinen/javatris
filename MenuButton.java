@@ -15,11 +15,31 @@ public class MenuButton
     private BufferedImage buttonImageFocused;
     private boolean statusChanged;
     private boolean previouslyFocused;
+    private GameEngine.ACTION action;
     
     public MenuButton(int index, ImageHandler images, int windowWidth, int windowHeight)
     {
 
         int yGap;
+        
+        switch(index)
+        {
+            case 0:
+                this.action = GameEngine.ACTION.NEW_GAME;
+                break;
+            case 1:
+                this.action = GameEngine.ACTION.OPTIONS;
+                break;
+            case 2:
+                this.action = GameEngine.ACTION.MANUAL;
+                break;
+            case 3:
+                this.action = GameEngine.ACTION.HIGH_SCORE;
+                break;
+            case 4:
+                this.action = GameEngine.ACTION.QUIT;
+                break;
+        }
         
         yGap = windowHeight - ImageHandler.menuItemsCount*buttonHeight;
         yGap /= ImageHandler.menuItemsCount+2;
@@ -65,6 +85,14 @@ public class MenuButton
             }
         }
         
+    }
+    
+    public GameEngine.ACTION mouseClicked()
+    {
+        if(hasFocus)
+            return action;
+        else
+            return GameEngine.ACTION.NONE;
     }
     
     
