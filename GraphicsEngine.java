@@ -101,11 +101,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         buffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
         g = (Graphics2D)buffer.getGraphics();
         
-        gameAreaBackground = new BufferedImage(gameAreaWidth + 2, gameAreaHeight, BufferedImage.TYPE_INT_RGB);
-        gameAreaGraphics = (Graphics2D)gameAreaBackground.getGraphics();
-        gameAreaGraphics.setColor(new Color(10,10,10));
-        gameAreaGraphics.drawRect(0, 0, gameAreaWidth, gameAreaHeight);
-        gameAreaGraphics.fillRect(0, 0, gameAreaWidth, gameAreaHeight);
+        gameAreaBackground = images.getGameAreaBackground();
             
         createGradientBackground(); 
         

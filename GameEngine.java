@@ -29,7 +29,7 @@ public class GameEngine implements GameEngineUserAction
         
         brickSize = gameAreaHeight/rows;
         
-        images = new ImageHandler(brickSize);
+        images = new ImageHandler(brickSize, gameAreaWidth, gameAreaHeight);
         
         stats = new Statistics();
         
