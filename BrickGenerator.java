@@ -72,21 +72,21 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
 
         switch(Math.abs(rand.nextInt()) % 8)
         {
-            case 0: image = images.getImageRef(0);
+            case 0: image = images.getBrickImageRef(0);
                 break;
-            case 1: image = images.getImageRef(1);
+            case 1: image = images.getBrickImageRef(1);
                 break;
-            case 2: image = images.getImageRef(2);
+            case 2: image = images.getBrickImageRef(2);
                 break;
-            case 3: image = images.getImageRef(3);
+            case 3: image = images.getBrickImageRef(3);
                 break;
-            case 4: image = images.getImageRef(4);
+            case 4: image = images.getBrickImageRef(4);
                 break;
-            case 5: image = images.getImageRef(5);
+            case 5: image = images.getBrickImageRef(5);
                 break;
-            case 6: image = images.getImageRef(6);
+            case 6: image = images.getBrickImageRef(6);
                 break;
-            case 7: image = images.getImageRef(7);
+            case 7: image = images.getBrickImageRef(7);
                 break;
           }
         

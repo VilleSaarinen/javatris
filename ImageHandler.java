@@ -11,32 +11,92 @@ import javax.imageio.ImageIO;
 
 public class ImageHandler
 {
+    //TODO: separate config file?
+    public static final int brickImagesCount = 8;
+    public static final int menuItemsCount = 5;
+    
     public final int infoBackgroundWidth = 180;
     public final int infoBackgroundHeight = 170;
     
+    private int windowWidth;
+    private int windowHeight;
+    
     private int gameAreaWidth;
     private int gameAreaHeight;
+    
+    private BufferedImage menuBackground;
+    private BufferedImage[] menuButtons;
+    private BufferedImage[] menuButtonsFocused;
     
     private BufferedImage[] standardBricks;
     private BufferedImage gameAreaBackground;
     private BufferedImage infoBackground;
     private Color infoBackgroundColor;
     
-    public ImageHandler(int size, int gameAreaWidth, int gameAreaHeight)
+    public ImageHandler(int size, int windowWidth, int windowHeight, int gameAreaWidth, int gameAreaHeight)
     {
 
-        
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
         this.gameAreaWidth = gameAreaWidth;
         this.gameAreaHeight = gameAreaHeight;
         
-        standardBricks = new BufferedImage[8];
+        standardBricks = new BufferedImage[brickImagesCount];
+        menuButtons = new BufferedImage[menuItemsCount];
+        menuButtonsFocused = new BufferedImage[menuItemsCount];
+        
         size = size-2;
         
         //TODO: handle also Windows-type paths
+        createMenuImages();
         createBrickImages(size);
         createGameAreaBackground();
         createInfoImages();
 
+    }
+    
+    
+    private void createMenuImages()
+    {
+        try
+        {
+            menuBackground = ImageIO.read(new File("src/images/menu_bg.jpg"));
+        }
+        catch (IOException e)
+        {
+            Graphics g;
+            e.printStackTrace();
+            System.err.println("Image \"menu_bg.jpg\" not found!\n");
+            menuBackground = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB); 
+            g = menuBackground.getGraphics();
+            g.setColor(new Color(200, 200, 200));
+            g.fillRect(0, 0, windowWidth, windowHeight);
+        }
+        
+        try
+        {
+            menuButtons[0] = ImageIO.read(new File("src/images/new_game_button.jpg"));
+            menuButtonsFocused[0] = ImageIO.read(new File("src/images/new_game_button_focused.jpg"));
+            
+            menuButtons[1] = ImageIO.read(new File("src/images/options_button.jpg"));
+            menuButtonsFocused[1] = ImageIO.read(new File("src/images/options_button_focused.jpg"));
+            
+            menuButtons[2] = ImageIO.read(new File("src/images/manual_button.jpg"));
+            menuButtonsFocused[2] = ImageIO.read(new File("src/images/manual_button_focused.jpg"));
+            
+            menuButtons[3] = ImageIO.read(new File("src/images/high_score_button.jpg"));
+            menuButtonsFocused[3] = ImageIO.read(new File("src/images/high_score_button_focused.jpg"));
+            
+            menuButtons[4] = ImageIO.read(new File("src/images/quit_button.jpg"));
+            menuButtonsFocused[4] = ImageIO.read(new File("src/images/quit_button_focused.jpg"));
+            
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            System.err.println("Can't create menu, images missing! Quitting briXick...\n");
+            System.exit(1);
+        }
     }
     
     
@@ -193,7 +253,7 @@ public class ImageHandler
     }
     
     
-    public BufferedImage getImageRef(int index)
+    public BufferedImage getBrickImageRef(int index)
     {
         return standardBricks[index];
     }
@@ -204,9 +264,28 @@ public class ImageHandler
         return infoBackground;
     }
     
+    
     public BufferedImage getGameAreaBackground()
     {
         return gameAreaBackground;
+    }
+    
+    
+    public BufferedImage getMenuBackground()
+    {
+        return menuBackground;
+    }
+    
+    
+    public BufferedImage getMenuButton(int index)
+    {
+        return menuButtons[index];
+    }
+    
+    
+    public BufferedImage getFocusedMenuButton(int index)
+    {
+        return menuButtonsFocused[index];
     }
     
 }

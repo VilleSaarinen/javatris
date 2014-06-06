@@ -1,9 +1,12 @@
 
 public class GameEngine implements GameEngineUserAction
 {
+    //TODO: config/definition file?
+    public static enum ACTION{NEW_GAME, OPTIONS, MANUAL, HIGH_SCORE, QUIT};
     
-    private final int width = 900;
-    private final int height = 900;
+    
+    private final int windowWidth = 900;
+    private final int windowHeight = 900;
     private final int rows = 27;
     private final int columns = 20;
     private int gameAreaWidth;
@@ -16,29 +19,29 @@ public class GameEngine implements GameEngineUserAction
     private GraphicsEngine graphicsEngine;
     private Statistics stats;
     private ImageHandler images;
+    private Menu menu;
 
-    
-    
     public GameEngine()
     {
 
         ui = new UserInput(this);
         
-        gameAreaWidth = width/9*6;
-        gameAreaHeight = height/10*9;
+        gameAreaWidth = windowWidth/9*6;
+        gameAreaHeight = windowHeight/10*9;
         
         brickSize = gameAreaHeight/rows;
         
-        images = new ImageHandler(brickSize, gameAreaWidth, gameAreaHeight);
+        images = new ImageHandler(brickSize, windowWidth, windowHeight, gameAreaWidth, gameAreaHeight);
         
         stats = new Statistics();
         
-        graphicsEngine = new GraphicsEngine(ui, width, height, gameAreaWidth, gameAreaHeight, gameAreaXStart, 
+        graphicsEngine = new GraphicsEngine(ui, windowWidth, windowHeight, gameAreaWidth, gameAreaHeight, gameAreaXStart, 
                              gameAreaYStart, images, stats);            
     }
     
     public void startNewGame()
     {
+        menuScreen();
         playTheGame();
     }
     
@@ -51,7 +54,9 @@ public class GameEngine implements GameEngineUserAction
     
     private void menuScreen()
     {
-        
+        menu = Menu.createMenu(images, windowWidth, windowHeight);
+        ui.registerMenu(menu);
+        graphicsEngine.startMenu(menu, ui);
     }
     
     
@@ -71,9 +76,7 @@ public class GameEngine implements GameEngineUserAction
         brickGenerator = new BrickGenerator(gameAreaWidth, gameAreaHeight, rows, columns, gameAreaXStart, gameAreaYStart, 
                                             brickSize, stats, images);
         
-        graphicsEngine.start();
-        
-        graphicsEngine.addBrickGenerator(brickGenerator);
+        graphicsEngine.startGame(brickGenerator);
         
         brickGenerator.updateBricks(true);
             

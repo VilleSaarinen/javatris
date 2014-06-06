@@ -32,7 +32,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private GradientPaint bg;
     private int red1, green1, blue1, red2, green2, blue2;
     private boolean r1, r2, g1, g2, b1, b2;
-    private Graphics2D g;
+    private Graphics2D gameGraphics;
     private BufferedImage gameAreaBackground;
     private BufferedImage buffer;
     private long updateTick;
@@ -53,6 +53,11 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private Color fontColor;
     private Statistics stats;
     private Random gradientRandom;
+    private Menu menu;
+    private boolean gameStarted;
+    private boolean menuScreen;
+    private BufferedImage menuBackground;
+    Graphics2D menuGraphics;
 
     
     
@@ -98,7 +103,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         r1 = r2 = g1 = g2 = b1 = b2 = true;
         
         buffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
-        g = (Graphics2D)buffer.getGraphics();
+        gameGraphics = (Graphics2D)buffer.getGraphics();
         
         gameAreaBackground = images.getGameAreaBackground();
             
@@ -123,6 +128,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         fontColor = new Color(200,10,100);
         
         this.stats = stats;
+        
+        gameStarted = false;
+        menuScreen = false;
         
     }
     
@@ -224,7 +232,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     }
     
     
-    public void paint(Graphics graphics)
+    private void paintGameArea(Graphics graphics)
     {    
         
         Brick[][] tempGameArea;
@@ -236,9 +244,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         if(((bgCounter++)%8) == 0)  //TODO: background change rate should be configurable?
         {    
             createGradientBackground(); 
-            g.setPaint(bg);        
-            g.fillRect(0, 0,  windowWidth, windowHeight);  //TODO: paint only small area if the background is not changed
-            g.drawImage(gameAreaBackground, gameAreaXStart - 1, gameAreaYStart, this);
+            gameGraphics.setPaint(bg);        
+            gameGraphics.fillRect(0, 0,  windowWidth, windowHeight);  //TODO: paint only small area if the background is not changed
+            gameGraphics.drawImage(gameAreaBackground, gameAreaXStart - 1, gameAreaYStart, this);
             updateLevel();
             updatePoints();
             bgUpdated = true;
@@ -261,7 +269,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         if(tempGameArea != null || bgUpdated)
         {
-            g.drawImage(gameAreaBackground, gameAreaXStart - 1, gameAreaYStart, this);
+            gameGraphics.drawImage(gameAreaBackground, gameAreaXStart - 1, gameAreaYStart, this);
             
             if(tempGameArea != null)
                 bricks = tempGameArea;
@@ -272,7 +280,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
                 {
                     if(brick != null)
                     {
-                        g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
+                        gameGraphics.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
                     }
                 }            
             }
@@ -304,16 +312,92 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     }
     
     
+    private void paintMenuScreen(Graphics g)
+    {
+        int i;
+        MenuButton[] buttons = menu.getButtons();
+        
+        for(i = 0; i < buttons.length; i++)
+        {
+            if(buttons[i].statusChanged())
+            {
+                menuGraphics.drawImage(buttons[i].getCurrentImage(), buttons[i].getX(), buttons[i].getY(), this);
+            }
+        }
+        
+        g.drawImage(menuBackground, 0, 0, windowWidth, windowHeight, this);
+        
+        g.dispose();
+    }
+    
+    
     public void update(Graphics g)
     {  
-        paint(g);
+        if(gameStarted)
+            paintGameArea(g);
+        
+        if(menuScreen)
+            paintMenuScreen(g);
     }
 
-    public void start()
+    public void startGame(BrickGeneratorGraphicsInterface gi)
     {
+        brickGenerator = gi;
+        
+        if(lock == null)
+            lock = new Semaphore(1);
+        
+        brickGenerator.registerGraphicsObject(this, lock);
+        
+        gameStarted = true;
+        
         thread.start();
     }
     
+    
+    public void gameOver()
+    {
+        gameStarted = false;
+    }
+    
+    
+    public GameEngine.ACTION startMenu(Menu menu, UserInput ui)
+    {
+        
+        int interval = 50;
+        
+        this.menu = menu;
+        
+        menuScreen = true;
+        
+        menuBackground = menu.getMenuBackground();
+        menuGraphics = (Graphics2D)menuBackground.getGraphics();
+        
+        this.addMouseListener(ui);
+        this.addMouseMotionListener(ui);
+        
+
+        while(true)
+        {
+                
+            repaint();
+            
+            try
+            {
+                Thread.sleep(interval);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+    private void animateMenuStart()
+    {
+        
+    }
     
     public void run() 
     {
@@ -343,16 +427,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
     }
     
-    
-    public void addBrickGenerator(BrickGeneratorGraphicsInterface gi)
-    {
-        brickGenerator = gi;
-        
-        if(lock == null)
-            lock = new Semaphore(1);
-        
-        brickGenerator.registerGraphicsObject(this, lock);
-    }
 
     public void animateRowDeletion(int row)
     {
@@ -368,7 +442,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         for(Iterator<Integer> it = rowsToDelete.iterator(); it.hasNext();)
         {
             i = it.next();
-            g.drawImage(gameAreaBackground.getSubimage(0, i*next[0].getSize(), gameAreaWidth, next[0].getSize()), 
+            gameGraphics.drawImage(gameAreaBackground.getSubimage(0, i*next[0].getSize(), gameAreaWidth, next[0].getSize()), 
                     gameAreaXStart, gameAreaYStart+i*next[0].getSize(), this);
             
         }
@@ -385,7 +459,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
             {
                 while((previousBrickCoordinates = current[i].getPreviousPoint()) != null)
                 {
-                    g.drawImage(gameAreaBackground.getSubimage(previousBrickCoordinates.x - gameAreaXStart,
+                    gameGraphics.drawImage(gameAreaBackground.getSubimage(previousBrickCoordinates.x - gameAreaXStart,
                             previousBrickCoordinates.y - gameAreaYStart, current[i].getSize(), current[i].getSize()),
                             previousBrickCoordinates.x-1, previousBrickCoordinates.y, this);
                 }
@@ -394,7 +468,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     
         for(Brick brick : current)
         {
-            g.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
+            gameGraphics.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
         }
         
     }
@@ -406,17 +480,17 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         int xStart = gameAreaXStart + gameAreaWidth + 30;
         
-        g.drawImage(image, xStart, gameAreaYStart, 
+        gameGraphics.drawImage(image, xStart, gameAreaYStart, 
                 image.getWidth(), image.getHeight(), this);
         
-        g.setFont(textFont);
-        g.setColor(fontColor);
+        gameGraphics.setFont(textFont);
+        gameGraphics.setColor(fontColor);
         
-        g.drawString("Next:", xStart + 10, gameAreaYStart + 30);
+        gameGraphics.drawString("Next:", xStart + 10, gameAreaYStart + 30);
         
         for(Brick brick : next)
         {
-            g.drawImage(brick.getImage(), xStart + 30 + brick.getRelativeColumnIndex()*brick.getSize(),
+            gameGraphics.drawImage(brick.getImage(), xStart + 30 + brick.getRelativeColumnIndex()*brick.getSize(),
                     gameAreaYStart + 50 + brick.getRelativeRowIndex()*brick.getSize(), this);
         }
     }
@@ -430,16 +504,16 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         int xStart = gameAreaXStart + gameAreaWidth + 30;
         int yStart = gameAreaYStart + 400;
         
-        g.drawImage(image, xStart, yStart, 
+        gameGraphics.drawImage(image, xStart, yStart, 
                 image.getWidth(), image.getHeight(), this);
         
-        g.setFont(textFont);
-        g.setColor(fontColor);
+        gameGraphics.setFont(textFont);
+        gameGraphics.setColor(fontColor);
         
-        g.drawString("Level:", xStart + 10, yStart + 30);
+        gameGraphics.drawString("Level:", xStart + 10, yStart + 30);
         
-        g.setFont(numberFont);
-        g.drawString(Integer.toString(stats.getLevel()), xStart + 80, yStart + 120);
+        gameGraphics.setFont(numberFont);
+        gameGraphics.drawString(Integer.toString(stats.getLevel()), xStart + 80, yStart + 120);
         
     }
     
@@ -457,16 +531,23 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         
         
-        g.drawImage(image, xStart, yStart, 
+        gameGraphics.drawImage(image, xStart, yStart, 
                 image.getWidth(), image.getHeight(), this);
         
-        g.setFont(textFont);
-        g.setColor(fontColor);
+        gameGraphics.setFont(textFont);
+        gameGraphics.setColor(fontColor);
         
-        g.drawString("Points:", xStart + 10, yStart + 30);
+        gameGraphics.drawString("Points:", xStart + 10, yStart + 30);
         
-        g.setFont(pointsFont);
-        g.drawString(points, fontStartX, yStart + 120);
+        gameGraphics.setFont(pointsFont);
+        gameGraphics.drawString(points, fontStartX, yStart + 120);
+        
+    }
+
+
+    public void startMenu(Vector<MenuButton> buttons)
+    {
+        
         
     }
     

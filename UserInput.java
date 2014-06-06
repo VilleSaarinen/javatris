@@ -15,6 +15,7 @@ public class UserInput implements MouseListener, KeyListener,
     private boolean ctrlPressed;
     
     private GameEngineUserAction gameEngine;
+    private MenuUserAction menu;
     
     public UserInput(GameEngineUserAction gameEngine)
     {
@@ -23,63 +24,62 @@ public class UserInput implements MouseListener, KeyListener,
     }
     
     
-    @Override
     public void mouseWheelMoved(MouseWheelEvent arg0) 
     {
         // TODO rotate when mouse wheel scrolled
 
     }
 
-    @Override
+    
     public void mouseDragged(MouseEvent arg0) 
     {
         // TODO no need for implementation
 
     }
 
-    @Override
-    public void mouseMoved(MouseEvent arg0) 
+
+    public void mouseMoved(MouseEvent e) 
     {
-        // TODO maybe move the brick?
+        menu.mouseMoved(e.getPoint());
 
     }
 
-    @Override
-    public void mouseClicked(MouseEvent arg0) 
+
+    public void mouseClicked(MouseEvent e) 
     {
-        // TODO click objects
+        menu.mouseClicked(e.getPoint());
 
     }
 
-    @Override
+
     public void mouseEntered(MouseEvent arg0) 
     {
         // TODO not needed?
 
     }
 
-    @Override
+
     public void mouseExited(MouseEvent arg0) 
     {
         // TODO not needed?
 
     }
 
-    @Override
+ 
     public void mousePressed(MouseEvent arg0) 
     {
         // TODO not needed?
 
     }
 
-    @Override
+
     public void mouseReleased(MouseEvent arg0) 
     {
         // TODO not needed?
 
     }
 
-    @Override
+
     public void keyPressed(KeyEvent e)
     {
         
@@ -114,7 +114,13 @@ public class UserInput implements MouseListener, KeyListener,
         
     }
 
-    @Override
+    
+    public void registerMenu(MenuUserAction menu)
+    {
+        this.menu = menu;
+    }
+    
+
     public void keyReleased(KeyEvent e)
     {
         if(e.getKeyCode() == KeyEvent.VK_CONTROL)
@@ -122,7 +128,7 @@ public class UserInput implements MouseListener, KeyListener,
         
     }
 
-    @Override
+
     public void keyTyped(KeyEvent e)
     {
         // TODO Auto-generated method stub
