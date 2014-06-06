@@ -70,7 +70,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         Brick[] block = null;
         int blockType;
 
-        switch(Math.abs(rand.nextInt()) % 6)
+        switch(Math.abs(rand.nextInt()) % 8)
         {
             case 0: image = images.getImageRef(0);
                 break;
@@ -83,6 +83,10 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             case 4: image = images.getImageRef(4);
                 break;
             case 5: image = images.getImageRef(5);
+                break;
+            case 6: image = images.getImageRef(6);
+                break;
+            case 7: image = images.getImageRef(7);
                 break;
           }
         
