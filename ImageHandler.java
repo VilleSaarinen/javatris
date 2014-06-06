@@ -26,7 +26,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[0] = ImageIO.read(new File("images/brick1.jpg"));
+            standardBricks[0] = ImageIO.read(new File("src/images/brick1.jpg"));
         }
         catch (IOException e)
         {
@@ -39,7 +39,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[1] = ImageIO.read(new File("images/brick2.jpg"));
+            standardBricks[1] = ImageIO.read(new File("src/images/brick2.jpg"));
         }
         catch (IOException e)
         {
@@ -52,7 +52,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[2] = ImageIO.read(new File("images/brick3.jpg"));
+            standardBricks[2] = ImageIO.read(new File("src/images/brick3.jpg"));
         }
         catch (IOException e)
         {
@@ -65,7 +65,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[3] = ImageIO.read(new File("images/brick4.jpg"));
+            standardBricks[3] = ImageIO.read(new File("src/images/brick4.jpg"));
         }
         catch (IOException e)
         {
@@ -78,7 +78,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[4] = ImageIO.read(new File("images/brick5.jpg"));
+            standardBricks[4] = ImageIO.read(new File("src/images/brick5.jpg"));
         }
         catch (IOException e)
         {
@@ -91,7 +91,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[5] = ImageIO.read(new File("images/brick6.jpg"));
+            standardBricks[5] = ImageIO.read(new File("src/images/brick6.jpg"));
         }
         catch (IOException e)
         {
@@ -104,7 +104,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[6] = ImageIO.read(new File("images/brick7.jpg"));
+            standardBricks[6] = ImageIO.read(new File("src/images/brick7.jpg"));
         }
         catch (IOException e)
         {
@@ -117,7 +117,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[7] = ImageIO.read(new File("images/brick8.jpg"));
+            standardBricks[7] = ImageIO.read(new File("src/images/brick8.jpg"));
         }
         catch (IOException e)
         {
