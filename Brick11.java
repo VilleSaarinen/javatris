@@ -22,25 +22,25 @@ public class Brick11 extends Brick
         {
         case 1:      
             this.row = 0;
-            this.column = 7;
+            this.column = 9;
             this.relativeRow = 0;
             this.relativeColumn = 0;
             break;
         case 2:     
             row = 0;
-            column = 8;
+            column = 10;
             this.relativeRow = 0;
             this.relativeColumn = 1;
             break;
         case 3:     
             row = 0;
-            column = 9;
+            column = 11;
             this.relativeRow = 0;
             this.relativeColumn = 2;
             break;
         case 4:
             row = 1;
-            column = 8;
+            column = 10;
             this.relativeRow = 1;
             this.relativeColumn = 1;
             break;

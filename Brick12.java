@@ -103,9 +103,9 @@ public class Brick12 extends Brick
         if(first)
         {
             brick.row = rowIncrement;
-            brick.column = columnIncrement+7;
+            brick.column = columnIncrement+9;
             brick.y += rowIncrement*brick.size;
-            brick.x += (columnIncrement+7)*brick.size;
+            brick.x += (columnIncrement+9)*brick.size;
         }
         else
         {

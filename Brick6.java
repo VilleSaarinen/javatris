@@ -20,13 +20,13 @@ public class Brick6 extends Brick
         {
         case 1:      
             this.row = 0;
-            this.column = 7;
+            this.column = 9;
             this.relativeRow = 0;
             this.relativeColumn = 0;
             break;
         case 2:     
             row = 0;
-            column = 8;
+            column = 10;
             this.relativeRow = 0;
             this.relativeColumn = 1;
             break;

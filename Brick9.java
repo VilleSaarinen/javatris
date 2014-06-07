@@ -20,7 +20,7 @@ public class Brick9 extends Brick
         super(brickSize, brickIndex, brickImage);
         
         row = 0;
-        column = 8;
+        column = 10;
         this.relativeRow = 0;
         this.relativeColumn = 0;
 

@@ -24,31 +24,31 @@ public class Brick8 extends Brick
         {
         case 1:      
             this.row = 0;
-            this.column = 8;
+            this.column = 10;
             this.relativeRow = 0;
             this.relativeColumn = 1;
             break;
         case 2:     
             row = 1;
-            column = 7;
+            column = 9;
             this.relativeRow = 1;
             this.relativeColumn = 0;
             break;
         case 3:     
             row = 1;
-            column = 8;
+            column = 10;
             this.relativeRow = 1;
             this.relativeColumn = 1;
             break;
         case 4:
             row = 1;
-            column = 9;
+            column = 11;
             this.relativeRow = 1;
             this.relativeColumn = 2;
             break;
         case 5:
             row = 2;
-            column = 8;
+            column = 10;
             this.relativeRow = 2;
             this.relativeColumn = 1;
             
