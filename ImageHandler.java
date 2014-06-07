@@ -32,6 +32,7 @@ public class ImageHandler
     private BufferedImage gameAreaBackground;
     private BufferedImage infoBackground;
     private Color infoBackgroundColor;
+    private String separator;
     
     public ImageHandler(int size, int windowWidth, int windowHeight, int gameAreaWidth, int gameAreaHeight)
     {
@@ -47,7 +48,8 @@ public class ImageHandler
         
         size = size-2;
         
-        //TODO: handle also Windows-type paths
+        separator = File.separator;
+        
         createMenuImages();
         createBrickImages(size);
         createGameAreaBackground();
@@ -60,7 +62,7 @@ public class ImageHandler
     {
         try
         {
-            menuBackground = ImageIO.read(new File("src/images/menu_bg.jpg"));
+            menuBackground = ImageIO.read(new File("src" + separator + "images" + separator + "menu_bg.jpg"));
         }
         catch (IOException e)
         {
@@ -72,23 +74,23 @@ public class ImageHandler
             g.setColor(new Color(200, 200, 200));
             g.fillRect(0, 0, windowWidth, windowHeight);
         }
-        
+
         try
         {
-            menuButtons[0] = ImageIO.read(new File("src/images/new_game_button.jpg"));
-            menuButtonsFocused[0] = ImageIO.read(new File("src/images/new_game_button_focused.jpg"));
+            menuButtons[0] = ImageIO.read(new File("src" + separator + "images" + separator + "new_game_button.jpg"));
+            menuButtonsFocused[0] = ImageIO.read(new File("src" + separator + "images" + separator + "new_game_button_focused.jpg"));
             
-            menuButtons[1] = ImageIO.read(new File("src/images/options_button.jpg"));
-            menuButtonsFocused[1] = ImageIO.read(new File("src/images/options_button_focused.jpg"));
+            menuButtons[1] = ImageIO.read(new File("src" + separator + "images" + separator + "options_button.jpg"));
+            menuButtonsFocused[1] = ImageIO.read(new File("src" + separator + "images" + separator + "options_button_focused.jpg"));
             
-            menuButtons[2] = ImageIO.read(new File("src/images/manual_button.jpg"));
-            menuButtonsFocused[2] = ImageIO.read(new File("src/images/manual_button_focused.jpg"));
+            menuButtons[2] = ImageIO.read(new File("src" + separator + "images" + separator + "manual_button.jpg"));
+            menuButtonsFocused[2] = ImageIO.read(new File("src" + separator + "images" + separator + "manual_button_focused.jpg"));
             
-            menuButtons[3] = ImageIO.read(new File("src/images/high_score_button.jpg"));
-            menuButtonsFocused[3] = ImageIO.read(new File("src/images/high_score_button_focused.jpg"));
+            menuButtons[3] = ImageIO.read(new File("src" + separator + "images" + separator + "high_score_button.jpg"));
+            menuButtonsFocused[3] = ImageIO.read(new File("src" + separator + "images" + separator + "high_score_button_focused.jpg"));
             
-            menuButtons[4] = ImageIO.read(new File("src/images/quit_button.jpg"));
-            menuButtonsFocused[4] = ImageIO.read(new File("src/images/quit_button_focused.jpg"));
+            menuButtons[4] = ImageIO.read(new File("src" + separator + "images" + separator + "quit_button.jpg"));
+            menuButtonsFocused[4] = ImageIO.read(new File("src" + separator + "images" + separator + "quit_button_focused.jpg"));
             
         }
         catch (Exception e)
@@ -107,7 +109,7 @@ public class ImageHandler
 
         try
         {
-            standardBricks[0] = ImageIO.read(new File("src/images/brick1.jpg"));
+            standardBricks[0] = ImageIO.read(new File("src" + separator + "images" + separator + "brick1.jpg"));
         }
         catch (IOException e)
         {
@@ -121,7 +123,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[1] = ImageIO.read(new File("src/images/brick2.jpg"));
+            standardBricks[1] = ImageIO.read(new File("src" + separator + "images" + separator + "brick2.jpg"));
         }
         catch (IOException e)
         {
@@ -135,7 +137,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[2] = ImageIO.read(new File("src/images/brick3.jpg"));
+            standardBricks[2] = ImageIO.read(new File("src" + separator + "images" + separator + "brick3.jpg"));
         }
         catch (IOException e)
         {
@@ -149,7 +151,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[3] = ImageIO.read(new File("src/images/brick4.jpg"));
+            standardBricks[3] = ImageIO.read(new File("src" + separator + "images" + separator + "brick4.jpg"));
         }
         catch (IOException e)
         {
@@ -163,7 +165,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[4] = ImageIO.read(new File("src/images/brick5.jpg"));
+            standardBricks[4] = ImageIO.read(new File("src" + separator + "images" + separator + "brick5.jpg"));
         }
         catch (IOException e)
         {
@@ -177,7 +179,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[5] = ImageIO.read(new File("src/images/brick6.jpg"));
+            standardBricks[5] = ImageIO.read(new File("src" + separator + "images" + separator + "brick6.jpg"));
         }
         catch (IOException e)
         {
@@ -191,7 +193,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[6] = ImageIO.read(new File("src/images/brick7.jpg"));
+            standardBricks[6] = ImageIO.read(new File("src" + separator + "images" + separator + "brick7.jpg"));
         }
         catch (IOException e)
         {
@@ -205,7 +207,7 @@ public class ImageHandler
         
         try
         {
-            standardBricks[7] = ImageIO.read(new File("src/images/brick8.jpg"));
+            standardBricks[7] = ImageIO.read(new File("src" + separator + "images" + separator + "brick8.jpg"));
         }
         catch (IOException e)
         {
@@ -224,7 +226,7 @@ public class ImageHandler
     {
         try
         {
-            gameAreaBackground = ImageIO.read(new File("src/images/gamearea_bg.jpg"));
+            gameAreaBackground = ImageIO.read(new File("src" + separator + "images" + separator + "gamearea_bg.jpg"));
         }
         catch(IOException e)
         {
