@@ -217,6 +217,8 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     public void updateBricks(boolean first)
     {
 
+        boolean brickCreated = false;
+        
         try
         {
             lock.acquire();
@@ -255,13 +257,15 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             nextBlock = createBrick();
             
             currentChanged = true;
-            nextChanged = true;       
+            nextChanged = true;     
+            brickCreated = true;
             
         }
         
         lock.release();
         
-        dropCurrent(1);
+        if(!brickCreated)
+            dropCurrent(1);
         
     }
 

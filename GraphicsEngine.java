@@ -113,7 +113,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         previousTick = System.currentTimeMillis();  //TODO: necessary?
         nextTick = System.currentTimeMillis();
         
-        thread = null;
         lock = new Semaphore(1);
         
         bgCounter = 0;
