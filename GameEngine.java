@@ -65,6 +65,7 @@ public class GameEngine implements GameEngineUserAction, GameEngineMenuInterface
             case HIGH_SCORE:
                 break;
             case QUIT:
+                System.exit(0);
                 break;
         }
 

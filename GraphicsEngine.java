@@ -90,7 +90,6 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         //TODO: add other listeners as well
         this.addKeyListener(ui);
         
-        
         gradientRandom = new Random();
         //initial values for the gradient background
         red1 = Math.abs(gradientRandom.nextInt()) % 256;
@@ -388,6 +387,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     {
         
     }
+    
     
     public void run() 
     {
