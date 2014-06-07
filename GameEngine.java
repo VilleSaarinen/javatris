@@ -110,7 +110,7 @@ public class GameEngine implements GameEngineUserAction, GameEngineMenuInterface
         
         graphicsEngine.startGame(brickGenerator);
         
-        brickGenerator.updateBricks(true);
+        gameStarted = brickGenerator.updateBricks(true);
 
        for(counter = 0; gameStarted; counter++)
         {
@@ -121,61 +121,61 @@ public class GameEngine implements GameEngineUserAction, GameEngineMenuInterface
                case 1:
                     if((counter % 15) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 2:
                     if((counter % 13) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 3:
                     if((counter % 11) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 4:
                     if((counter % 9) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 5:
                     if((counter % 7) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 6:
                     if((counter % 6) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 7:
                     if((counter % 5) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 8:
                     if((counter % 4) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 9:
                     if((counter % 3) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
                 case 10:
                     if((counter % 2) == 0)
                     {
-                        brickGenerator.updateBricks(false);
+                        gameStarted = brickGenerator.updateBricks(false);
                     }
                     break;
             }

@@ -214,7 +214,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     
     
     
-    public void updateBricks(boolean first)
+    public boolean updateBricks(boolean first)
     {
 
         boolean brickCreated = false;
@@ -224,7 +224,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             lock.acquire();
         }
         catch (InterruptedException e) {
-            return;
+            return true;
         }
         
         if(!currentCreatedAndMovable)
@@ -244,14 +244,21 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                     deleteRows();
                 }
                 
-                
                 arrayChanged = true;
-                currentBlock = nextBlock;
+                currentBlock = nextBlock;     
                 
+                for(int i = 0; i < currentBlock.length; i++)
+                {
+                    if(!isAbleToMove(currentBlock[i], currentBlock[i].getRowIndex()+1, currentBlock[i].getColumnIndex()))
+                    {
+                        lock.release();
+                        return false;
+                    }
+                }
             }
             else
             {
-                currentBlock = createBrick();                
+                currentBlock = createBrick();  
             }
                 
             nextBlock = createBrick();
@@ -266,6 +273,8 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         
         if(!brickCreated)
             dropCurrent(1);
+        
+        return true;
         
     }
 

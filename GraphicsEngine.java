@@ -357,6 +357,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     public void gameOver()
     {
         gameStarted = false;
+        System.out.println("GAME OVER");
     }
     
     
