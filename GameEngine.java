@@ -51,14 +51,15 @@ public class GameEngine implements GameEngineUserAction, GameEngineMenuInterface
     
     public void menuStopped(ACTION action)
     {    
-        graphicsEngine.stopMenu(ui);
+
         
         switch(action)
         {
             case NEW_GAME: 
+                graphicsEngine.stopMenu(ui);
                 playTheGame();
                 break;
-            case OPTIONS:
+            case OPTIONS:  
                 break;
             case MANUAL:
                 break;
