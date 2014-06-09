@@ -259,9 +259,8 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                     }
                  }
                 
-                if(checkBonuses())
+                while(checkBonuses())
                 {
-                    System.out.println("Bonus!\n");
                     bonus = Bonus.createBonus(brickSize, this.getNewBrickImage());
                     bonusChanged = true;
                     

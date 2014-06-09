@@ -54,8 +54,8 @@ public abstract class Bonus
                     {                   
                         if(column + bonusShape[index].relativeColumn < gameBricks[0].length
                                 && row + bonusShape[index].relativeRow < gameBricks.length
-                                && column + bonusShape[index].relativeColumn > 0
-                                && row + bonusShape[index].relativeRow > 0               
+                                && column + bonusShape[index].relativeColumn >= 0
+                                && row + bonusShape[index].relativeRow >= 0               
                                 && gameBricks[row + bonusShape[index].relativeRow][column + bonusShape[index].relativeColumn] != null
                                 && gameBricks[row + bonusShape[index].relativeRow][column + bonusShape[index].relativeColumn].getImage() 
                                 == bonusShape[index].getImage())
