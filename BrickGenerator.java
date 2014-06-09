@@ -79,7 +79,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     {
         BufferedImage image = null;
         
-        switch(Math.abs(rand.nextInt()) % 8)
+        switch(Math.abs(rand.nextInt()) % 3)
         {    
             case 0: image = images.getBrickImageRef(0);
                 break;
@@ -87,7 +87,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                 break;
             case 2: image = images.getBrickImageRef(2);
                 break;
-            case 3: image = images.getBrickImageRef(3);
+        /*    case 3: image = images.getBrickImageRef(3);
                 break;
             case 4: image = images.getBrickImageRef(4);
                 break;
@@ -96,7 +96,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             case 6: image = images.getBrickImageRef(6);
                 break;
             case 7: image = images.getBrickImageRef(7);
-                break;
+                break;*/
           }
         
         return image;
@@ -417,9 +417,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     
     
     public void deleteRows()
-    {
-        
-        
+    {  
         
         for(Iterator<Integer> it = rowsToDelete.iterator(); it.hasNext();)
         {
