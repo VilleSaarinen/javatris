@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 public abstract class Bonus
 {
-    private final static int numberOfBonuses = 2; //TODO: config file? 
+    private final static int numberOfBonuses = 3; //TODO: config file? 
     protected Brick[] bonusShape;
     protected BrickGenerator brickGenerator;
     
@@ -27,6 +27,8 @@ public abstract class Bonus
                 break;
             case 1: bonus = new PyramidBonus(brickSize, image);
                 break;
+            case 2: bonus = new DiagonalBonus(brickSize, image);
+            break;
         }
 
         
