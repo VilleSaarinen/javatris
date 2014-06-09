@@ -10,7 +10,7 @@ import java.util.Random;
  */
 
 
-public class Brick12 extends Brick
+public class Brick12 extends GameAreaBrick
 {
     
     private static int i = 0;

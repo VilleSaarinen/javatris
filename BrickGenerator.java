@@ -17,9 +17,9 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     private int brickSize;
     private int rows;
     private int columns;
-    private Brick[][] bricks;       //contains all the bricks the game grid
-    private Brick[] currentBlock;   //contains the current movable set of bricks, i.e. a block 
-    private Brick[] nextBlock;        //contains the block that comes next
+    private GameAreaBrick[][] bricks;       //contains all the bricks the game grid
+    private GameAreaBrick[] currentBlock;   //contains the current movable set of bricks, i.e. a block 
+    private GameAreaBrick[] nextBlock;        //contains the block that comes next
     private boolean currentCreatedAndMovable; //if there's a block that can be moved, this is true
     private Random rand;
     private GraphicsInterface graphicsModule;
@@ -45,7 +45,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         this.gameAreaXStart = gameAreaStartX;
         this.gameAreaYStart = gameAreaStartY;
         
-        bricks = new Brick[rows][columns];
+        bricks = new GameAreaBrick[rows][columns];
         
         this.brickSize = brickSize;
         
@@ -64,14 +64,13 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         
     }
     
-    private Brick[] createBrick()
+    
+    public BufferedImage getNewBrickImage()
     {
         BufferedImage image = null;
-        Brick[] block = null;
-        int blockType;
-
+        
         switch(Math.abs(rand.nextInt()) % 8)
-        {
+        {    
             case 0: image = images.getBrickImageRef(0);
                 break;
             case 1: image = images.getBrickImageRef(1);
@@ -90,116 +89,127 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                 break;
           }
         
+        return image;
+    }
+    
+    private GameAreaBrick[] createBrick()
+    {
+        BufferedImage image = null;
+        GameAreaBrick[] block = null;
+        int blockType;
+
+        image = getNewBrickImage();
+        
         
         switch((blockType = Math.abs(rand.nextInt()) % DIFFERENT_BRICKS_COUNT))
         {
         case 0: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick1(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 1: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick2(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
         
         case 2: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick3(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 3: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick4(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 4: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick5(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 5: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick6(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 6: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick7(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
       
         case 7: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick8(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 8: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick9(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 9: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick10(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 10: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick11(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 11: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick12(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 12: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick13(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
             break;
             
         case 13: 
-            block = new Brick[Brick.getBrickCount(blockType)];
-            for(int i = 0; i < Brick.getBrickCount(blockType); i++)
+            block = new GameAreaBrick[GameAreaBrick.getBrickCount(blockType)];
+            for(int i = 0; i < GameAreaBrick.getBrickCount(blockType); i++)
             {
                 block[i] = new Brick14(gameAreaXStart, gameAreaYStart, brickSize , i+1, image);
             }
@@ -498,7 +508,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     
     
     
-    private boolean isAbleToMove(Brick brick, int rowToMove, int columnToMove)
+    private boolean isAbleToMove(GameAreaBrick brick, int rowToMove, int columnToMove)
     {
         
         if(rowToMove < 0 || columnToMove < 0 || rowToMove >= rows || columnToMove >= columns)
@@ -523,7 +533,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     }
 
     
-    public Brick[][] getGameAreaBricks()
+    public GameAreaBrick[][] getGameAreaBricks()
     {        
         if(arrayChanged)
         {
@@ -542,7 +552,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     }
 
 
-    public Brick[] getCurrentBrick() {
+    public GameAreaBrick[] getCurrentBrick() {
         
         if(currentChanged)
         {
@@ -554,7 +564,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     }
 
 
-    public Brick[] getNextBrick()
+    public GameAreaBrick[] getNextBrick()
     {
         if(nextChanged)
         {

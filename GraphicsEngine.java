@@ -41,9 +41,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private Thread thread;
     private BrickGeneratorGraphicsInterface brickGenerator;
     private Semaphore lock;
-    private Brick[][] bricks;
-    private Brick[] current;
-    private Brick[] next;
+    private GameAreaBrick[][] bricks;
+    private GameAreaBrick[] current;
+    private GameAreaBrick[] next;
     private int bgCounter;
     private Point previousBrickCoordinates;
     private ImageHandler images;
@@ -237,9 +237,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private void paintGameArea(Graphics graphics)
     {    
         
-        Brick[][] tempGameArea;
-        Brick[] tempCurrent;
-        Brick[] tempNext;
+        GameAreaBrick[][] tempGameArea;
+        GameAreaBrick[] tempCurrent;
+        GameAreaBrick[] tempNext;
         boolean bgUpdated = false;
         
         if(((bgCounter++)%8) == 0)  //TODO: background change rate should be configurable?
@@ -275,9 +275,9 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
             if(tempGameArea != null)
                 bricks = tempGameArea;
             
-            for(Brick[] row : bricks)
+            for(GameAreaBrick[] row : bricks)
             {
-                for(Brick brick : row)
+                for(GameAreaBrick brick : row)
                 {
                     if(brick != null)
                     {
@@ -456,7 +456,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
             }
         }
     
-        for(Brick brick : current)
+        for(GameAreaBrick brick : current)
         {
             gameGraphics.drawImage(brick.getImage(), brick.getX(), brick.getY(), this);
         }
@@ -478,7 +478,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
         gameGraphics.drawString("Next:", xStart + 10, gameAreaYStart + 30);
         
-        for(Brick brick : next)
+        for(GameAreaBrick brick : next)
         {
             gameGraphics.drawImage(brick.getImage(), xStart + 30 + brick.getRelativeColumnIndex()*brick.getSize(),
                     gameAreaYStart + 50 + brick.getRelativeRowIndex()*brick.getSize(), this);

@@ -9,11 +9,11 @@ import java.awt.Point;
 
 public abstract class Bonus
 {
-    private final static int numberOfBonuses = 3; //TODO: config file? 
-    private Brick[] bonusShape;
+    private final static int numberOfBonuses = 1; //TODO: config file? 
+    protected Brick[] bonusShape;
+    protected BrickGenerator brickGenerator;
     
-    
-    public abstract Point checkBonus(Brick[][] gameBricks);
+    public abstract Point checkBonus(GameAreaBrick[][] gameBricks);
     
     public Bonus createBonus()
     {
@@ -24,12 +24,6 @@ public abstract class Bonus
         {
             case 0:
                 break;
-            
-            case 1:
-                break;
-                
-            case 2:
-                break;
         }
 
         
@@ -37,9 +31,9 @@ public abstract class Bonus
         return bonus;
     }
     
-    public Bonus()
+    public Bonus(BrickGenerator generator)
     {
-        
+        this.brickGenerator = generator;
     }
     
     

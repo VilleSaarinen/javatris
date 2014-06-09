@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * 
  */
 
-public class Brick7 extends Brick
+public class Brick7 extends GameAreaBrick
 {
 
     public Brick7(int gameAreaStartX, int gameAreaStartY, int brickSize, int brickIndex, BufferedImage brickImage)

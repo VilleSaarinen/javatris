@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * 
  */
 
-public class Brick6 extends Brick
+public class Brick6 extends GameAreaBrick
 {
 
     public Brick6(int gameAreaStartX, int gameAreaStartY, int brickSize, int brickIndex, BufferedImage brickImage)

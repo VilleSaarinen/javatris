@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  */
 
 
-public class Brick9 extends Brick
+public class Brick9 extends GameAreaBrick
 {
 
     private int dropHeight;
