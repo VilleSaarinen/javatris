@@ -1,5 +1,7 @@
 import java.util.Random;
+import java.util.Vector;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 
 /*
  * 
@@ -13,27 +15,22 @@ public abstract class Bonus
     protected Brick[] bonusShape;
     protected BrickGenerator brickGenerator;
     
-    public abstract Point checkBonus(GameAreaBrick[][] gameBricks);
+    public abstract Vector<Point> checkBonus(GameAreaBrick[][] gameBricks);
     
-    public Bonus createBonus()
+    public static Bonus createBonus(int brickSize, BufferedImage image)
     {
         Bonus bonus = null;
         Random rand = new Random();
         
         switch(rand.nextInt()%numberOfBonuses)
         {
-            case 0:
+            case 0: bonus = new SquareBonus(brickSize, image);
                 break;
         }
 
         
         
         return bonus;
-    }
-    
-    public Bonus(BrickGenerator generator)
-    {
-        this.brickGenerator = generator;
     }
     
     

@@ -8,5 +8,6 @@ public interface BrickGeneratorGraphicsInterface
     public GameAreaBrick[][] getGameAreaBricks();
     public GameAreaBrick[] getCurrentBrick();
     public GameAreaBrick[] getNextBrick();
+    public Brick[] getBonus();
     public void registerGraphicsObject(GraphicsInterface gi, Semaphore lock);
 }

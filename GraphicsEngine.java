@@ -44,6 +44,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private GameAreaBrick[][] bricks;
     private GameAreaBrick[] current;
     private GameAreaBrick[] next;
+    private Brick[] bonus;
     private int bgCounter;
     private Point previousBrickCoordinates;
     private ImageHandler images;
@@ -240,6 +241,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         GameAreaBrick[][] tempGameArea;
         GameAreaBrick[] tempCurrent;
         GameAreaBrick[] tempNext;
+        Brick[] tempBonus;
         boolean bgUpdated = false;
         
         if(((bgCounter++)%8) == 0)  //TODO: background change rate should be configurable?
@@ -266,6 +268,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         tempGameArea = brickGenerator.getGameAreaBricks();
         tempCurrent = brickGenerator.getCurrentBrick();
         tempNext = brickGenerator.getNextBrick();
+        tempBonus = brickGenerator.getBonus();
         
         
         if(tempGameArea != null || bgUpdated)
@@ -302,6 +305,14 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
                 next = tempNext;
             
             updateNext();
+        }
+        
+        if(tempBonus != null || bgUpdated)
+        {
+            if(tempBonus != null)
+                bonus = tempBonus;
+            
+            updateBonus();
         }
         
         
@@ -534,5 +545,28 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         
     }
 
+    
+    private void updateBonus()
+    {
+        BufferedImage image = images.getInfoBackground();
+        
+        int xStart = gameAreaXStart + gameAreaWidth + 30;
+        int yStart = gameAreaYStart + 600;
+        
+        
+        
+        gameGraphics.drawImage(image, xStart, yStart, 
+                image.getWidth(), image.getHeight(), this);
+        
+        gameGraphics.setFont(textFont);
+        gameGraphics.setColor(fontColor);
+        
+        gameGraphics.drawString("Bonus:", xStart + 10, yStart + 30); 
+        
+        for(Brick brick : bonus)
+        {
+            gameGraphics.drawImage(brick.getImage(), brick.getX() + xStart + 30, brick.getY() + yStart + 50, this);
+        }
+    }
     
 }

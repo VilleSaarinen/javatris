@@ -2,6 +2,12 @@ import java.awt.image.BufferedImage;
 import java.util.Stack;
 import java.awt.Point;
 
+/*
+ * 
+ * Base class for bricks that can be rotated (i.e. game area bricks).
+ * 
+ */
+
 public abstract class GameAreaBrick extends Brick
 {
 

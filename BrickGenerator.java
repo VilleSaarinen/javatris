@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Random;
@@ -25,12 +26,14 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     private GraphicsInterface graphicsModule;
     private Semaphore lock;   //to make sure array Bricks[][] isn't modified while drawn by GraphicsInterface
     private ImageHandler images;
+    Bonus bonus;
 
     //The following boolean values tell the graphicsmodule if the arrays have changed
     //These values should only be set "false" when returned to the graphics module
     private boolean currentChanged;
     private boolean nextChanged;
     private boolean arrayChanged;
+    private boolean bonusChanged;
     private Vector<Integer> rowsToDelete;
     private Statistics stats;
     
@@ -56,12 +59,19 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         currentChanged = true;
         nextChanged = true;
         arrayChanged = true;
+        bonusChanged = true;
         rowsToDelete = new Vector<Integer>();
         
         this.stats = stats;
         
         this.images = image;
         
+    }
+    
+    
+    public int getBrickSize()
+    {
+        return brickSize;
     }
     
     
@@ -252,6 +262,9 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                 if(checkBonuses())
                 {
                     System.out.println("Bonus!\n");
+                    bonus = Bonus.createBonus(brickSize, this.getNewBrickImage());
+                    bonusChanged = true;
+                    
                 }
                 
                 if(checkRows())
@@ -273,7 +286,8 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             }
             else
             {
-                currentBlock = createBrick();  
+                currentBlock = createBrick(); 
+                bonus = Bonus.createBonus(brickSize, this.getNewBrickImage()); 
             }
                 
             nextBlock = createBrick();
@@ -387,8 +401,18 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     
     public boolean checkBonuses()
     {
+        Vector<Point> points;
         
-        return false;
+        if((points = bonus.checkBonus(bricks)) == null)
+            return false;
+        
+        for(Point point : points)
+        {
+            bricks[point.y][point.x] = null;
+            System.out.println("Bonus!");
+        }
+        
+        return true;
     }
     
     
@@ -572,6 +596,15 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             return nextBlock;
         }
         else
+            return null;
+    }
+    
+    
+    public Brick[] getBonus()
+    {
+        if(bonusChanged)
+            return bonus.getBonusShape();
+        else 
             return null;
     }
 
