@@ -10,7 +10,7 @@ public class DiagonalBonus extends Bonus
         
         bonusShape = new Brick[5];
         
-        switch(Math.abs(rand.nextInt())%2)
+        switch(Math.abs(rand.nextInt())%2)   
         {
             case 0:
                 bonusShape[0] = new Brick(brickSize, image, 0, 0, 0, 0, 0, 0);

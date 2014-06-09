@@ -42,6 +42,12 @@ public abstract class Bonus
         return bonusShape;
     }
     
+    
+    public BufferedImage getBonusColor()
+    {
+        return bonusShape[0].getImage();
+    }
+    
     public Vector<Point> checkBonus(GameAreaBrick[][] gameBricks)
     {
         

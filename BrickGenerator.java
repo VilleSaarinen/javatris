@@ -75,11 +75,18 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     }
     
     
-    public BufferedImage getNewBrickImage()
+    public BufferedImage getNewBrickImage(boolean isBonus)
     {
         BufferedImage image = null;
+        int modulo;
         
-        switch(Math.abs(rand.nextInt()) % 3)
+        //if bonus is created, let's try to get more bricks of that color! 
+        if(!isBonus)
+            modulo = 9;
+        else
+            modulo = 8;
+        
+        switch(Math.abs(rand.nextInt()) % modulo)
         {    
             case 0: image = images.getBrickImageRef(0);
                 break;
@@ -87,7 +94,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                 break;
             case 2: image = images.getBrickImageRef(2);
                 break;
-        /*    case 3: image = images.getBrickImageRef(3);
+            case 3: image = images.getBrickImageRef(3);
                 break;
             case 4: image = images.getBrickImageRef(4);
                 break;
@@ -96,7 +103,9 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             case 6: image = images.getBrickImageRef(6);
                 break;
             case 7: image = images.getBrickImageRef(7);
-                break;*/
+                break;
+            case 8: image = bonus.getBonusColor();
+                break;
           }
         
         return image;
@@ -108,7 +117,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         GameAreaBrick[] block = null;
         int blockType;
 
-        image = getNewBrickImage();
+        image = getNewBrickImage(false);
         
         
         switch((blockType = Math.abs(rand.nextInt()) % DIFFERENT_BRICKS_COUNT))
@@ -261,7 +270,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                 
                 while(checkBonuses())
                 {
-                    bonus = Bonus.createBonus(brickSize, this.getNewBrickImage());
+                    bonus = Bonus.createBonus(brickSize, this.getNewBrickImage(true));
                     bonusChanged = true;
                     
                 }
@@ -286,7 +295,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
             else
             {
                 currentBlock = createBrick(); 
-                bonus = Bonus.createBonus(brickSize, this.getNewBrickImage()); 
+                bonus = Bonus.createBonus(brickSize, this.getNewBrickImage(true)); 
             }
                 
             nextBlock = createBrick();
