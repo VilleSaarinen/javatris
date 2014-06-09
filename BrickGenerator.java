@@ -239,6 +239,11 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                     }
                  }
                 
+                if(checkBonuses())
+                {
+                    System.out.println("Bonus!\n");
+                }
+                
                 if(checkRows())
                 {
                     deleteRows();
@@ -367,6 +372,13 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         
         return retval;
         
+    }
+    
+    
+    public boolean checkBonuses()
+    {
+        
+        return false;
     }
     
     
