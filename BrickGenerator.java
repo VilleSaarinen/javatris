@@ -27,6 +27,7 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     private Semaphore lock;   //to make sure array Bricks[][] isn't modified while drawn by GraphicsInterface
     private ImageHandler images;
     Bonus bonus;
+    private int maxDrop;
 
     //The following boolean values tell the graphicsmodule if the arrays have changed
     //These values should only be set "false" when returned to the graphics module
@@ -293,9 +294,9 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
                 }
             }
             else
-            {
-                currentBlock = createBrick(); 
+            {      
                 bonus = Bonus.createBonus(brickSize, this.getNewBrickImage(true)); 
+                currentBlock = createBrick(); 
             }
                 
             nextBlock = createBrick();
@@ -307,9 +308,11 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         }
         
         lock.release();
-        
+
         if(!brickCreated)
             dropCurrent(1);
+        
+        maxDrop = calculateMaxDrop();
         
         return true;
         
@@ -333,6 +336,25 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
         
     }
 
+    
+    private int calculateMaxDrop()
+    {
+        int maxDrop = rows;
+        int drop;
+        
+        for(int i = 0; i < currentBlock.length; i++)
+        {   
+            for(drop = 0; isAbleToMove(currentBlock[i], currentBlock[i].getRowIndex()+drop+1, currentBlock[i].getColumnIndex()); drop++)  
+                ; //do nothing, just calculate the drop
+
+            if(drop < maxDrop)
+                maxDrop = drop;
+            
+        }
+        
+        return maxDrop;
+    }
+    
     public void dropCurrent(int drop)
     {
         
@@ -609,10 +631,20 @@ public class BrickGenerator implements BrickGeneratorGraphicsInterface
     public Brick[] getBonus()
     {
         if(bonusChanged)
+        {
+            bonusChanged = false;
             return bonus.getBonusShape();
+        }
         else 
             return null;
     }
+    
+    
+    public int getMaxDrop()
+    {
+        return maxDrop;
+    }
+    
 
     public ImageHandler getImageHandler()
     {

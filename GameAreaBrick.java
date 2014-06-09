@@ -21,6 +21,7 @@ public abstract class GameAreaBrick extends Brick
     protected int previousY;
     protected BrickType type;
     protected int position;    //there are 4 possible positions for each brick while rotated
+    protected GameAreaBrick ghostBrick;
    
     //number of bricks in each different set of bricks from 1 to 12
     protected static int[] brickCount = {4, 4, 4, 4, 4, 2, 4, 5, 1, 5, 4, 3, 5, 5};    

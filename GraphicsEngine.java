@@ -52,6 +52,7 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
     private Font numberFont;
     private Font pointsFont;
     private Color fontColor;
+    private Color ghostBrickColor;
     private Statistics stats;
     private Random gradientRandom;
     private Menu menu;
@@ -128,6 +129,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
         numberFont = new Font("serif", Font.BOLD, 50);
         pointsFont = new Font(Font.MONOSPACED, Font.BOLD, 35);
         fontColor = new Color(200,10,100);
+        
+        ghostBrickColor = new Color(200,200,200);
         
         this.stats = stats;
         
@@ -296,6 +299,8 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
                 current = tempCurrent;
             
             updateCurrent(bgUpdated);
+            
+            updateGhostBrick(bgUpdated, brickGenerator.getMaxDrop());
             
         }
         
@@ -494,6 +499,23 @@ public class GraphicsEngine extends Canvas implements Runnable, GraphicsInterfac
             gameGraphics.drawImage(brick.getImage(), xStart + 30 + brick.getRelativeColumnIndex()*brick.getSize(),
                     gameAreaYStart + 50 + brick.getRelativeRowIndex()*brick.getSize(), this);
         }
+    }
+    
+    
+    private void updateGhostBrick(boolean bgUpdated, int maxDrop)
+    {
+        if(!bgUpdated)
+        {
+            //TODO: hide previous ghost images
+        }
+    
+        gameGraphics.setColor(ghostBrickColor);
+        
+        for(GameAreaBrick brick : current)
+        {
+            gameGraphics.drawRect(brick.getX(), brick.getY() + brick.getSize()*maxDrop, brick.getSize(), brick.getSize());
+        }
+        
     }
     
     
